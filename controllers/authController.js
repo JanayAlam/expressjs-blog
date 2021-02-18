@@ -73,8 +73,8 @@ auth.signupPostController = async (req, res, next) => {
         });
         const createdUser = await user.save();
         console.log('User Created', createdUser);
-        res.render('pages/auth/signup', {
-            title: 'Create a new accout',
+        res.render('pages/auth/login', {
+            title: 'Signup',
             error: {},
         });
     } catch (e) {
@@ -89,7 +89,60 @@ auth.loginGetController = (req, res, next) => {
         error: {},
     });
 };
-auth.loginPostController = (req, res, next) => {};
+auth.loginPostController = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    if (!email) {
+        return res.render('pages/auth/login', {
+            title: 'Login',
+            error: {
+                email: 'Email filed is required',
+            },
+        });
+    }
+
+    if (!password) {
+        return res.render('pages/auth/login', {
+            title: 'Login',
+            error: {
+                password: 'Password filed is required',
+            },
+        });
+    }
+
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.render('pages/auth/login', {
+                title: 'Login',
+                error: {
+                    email: 'Invalid Credential',
+                    password: 'Invalid Credential',
+                },
+            });
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            return res.render('pages/auth/login', {
+                title: 'Login',
+                error: {
+                    email: 'Invalid Credential',
+                    password: 'Invalid Credential',
+                },
+            });
+        }
+        res.render('pages/auth/login', {
+            title: 'Login',
+            error: {},
+        });
+    } catch (e) {
+        console.log(e);
+        next(e);
+    }
+};
 
 auth.logoutController = (req, res, next) => {};
 
