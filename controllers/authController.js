@@ -1,3 +1,6 @@
+// encription
+const bcrypt = require('bcrypt');
+
 // models
 const User = require('../models/User');
 
@@ -14,7 +17,7 @@ const auth = {};
  */
 auth.signupGetController = (req, res, next) => {
     res.render('pages/auth/signup', {
-        title: 'Create a new accout',
+        title: 'Signup',
         error: {},
     });
 };
@@ -61,13 +64,13 @@ auth.signupPostController = async (req, res, next) => {
         });
     }
 
-    const user = new User({
-        username,
-        email,
-        password,
-    });
-
     try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
         const createdUser = await user.save();
         console.log('User Created', createdUser);
         res.render('pages/auth/signup', {
@@ -80,7 +83,12 @@ auth.signupPostController = async (req, res, next) => {
     }
 };
 
-auth.loginGetController = (req, res, next) => {};
+auth.loginGetController = (req, res, next) => {
+    res.render('pages/auth/login', {
+        title: 'Login',
+        error: {},
+    });
+};
 auth.loginPostController = (req, res, next) => {};
 
 auth.logoutController = (req, res, next) => {};

@@ -43,7 +43,9 @@ mongoose
     )
     .then(() => {
         app.listen(PORT, () => {
+            console.log(`Database connected`);
             console.log(`Server is running on PORT ${PORT}`);
+            console.log(`http://localhost:${PORT}`);
         });
     })
     .catch((e) => {
