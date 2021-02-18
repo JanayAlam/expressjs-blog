@@ -1,0 +1,21 @@
+{
+    "name": "blog-system",
+    "version": "0.0.1",
+    "description": "A simple express js blog project",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "set PORT=3000&&nodemon app"
+    },
+    "keywords": [],
+    "author": "Janay Alam",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mongoose": "^5.11.17",
+        "nodemon": "^2.0.7"
+    },
+    "devDependencies": {
+        "morgan": "^1.10.0"
+    }
+}
