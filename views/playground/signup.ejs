@@ -1,4 +1,4 @@
-<%- include('../../partials/header.ejs') %> 
+<%- include('../partials/header.ejs') %> 
 <div class="container my-container my-5">
     <div class="row">
         <div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
@@ -7,47 +7,35 @@
                     <h4 class="text-center my-2">Create a new account</h4>
                 </div>
                 <div class="card-body">
-                    <form action="/auth/signup" method="POST">
+                    <form action="/playground/validator" method="POST">
                         <div class="form-group">
                             <label for="username">
-                                Username (Must be lesser then 15 characters)
+                                Username (must be lesser then 15 characters)
                             </label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">@</div>
                                 </div>
-                                <input type="text" name="username" id="username" placeholder="Username" class="form-control <%- error.username ? "is-invalid" : "" %>" value="<%= value.username ? value.username : "" %>">
-                                <div class="invalid-feedback">
-                                    <%= error.username %> 
-                                </div>
+                                <input type="text" name="username" id="username" placeholder="Username" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email">
                                 Email Address
                             </label>
-                            <input type="email" name="email" id="email" placeholder="address@domain.com" class="form-control <%- error.email ? "is-invalid" : "" %>" value="<%= value.email ? value.email : "" %>">
-                            <div class="invalid-feedback">
-                                <%= error.email %> 
-                            </div>
+                            <input type="email" name="email" id="email" placeholder="address@domain.com" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="password">
-                                Password (Must be greater than 5 characters)
+                                Password
                             </label>
-                            <input type="password" name="password" id="password" placeholder="Password" class="form-control <%- error.password ? "is-invalid" : "" %>">
-                            <div class="invalid-feedback">
-                                <%= error.password %> 
-                            </div>
+                            <input type="password" name="password" id="password" placeholder="Password" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="confirmPassword">
                                 Confirm password
                             </label>
-                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Retype the password" class="form-control <%- error.confirmPassword ? "is-invalid" : "" %>">
-                            <div class="invalid-feedback">
-                                <%= error.confirmPassword %> 
-                            </div>
+                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Retype the password" class="form-control">
                         </div>
                         <input type="submit" value="Submit" class="btn btn-primary">
                     </form>
@@ -58,6 +46,6 @@
         </div>
     </div>
 </div>
-<%- include('../../partials/footer.ejs') %>
+<%- include('../partials/footer.ejs') %>
 </body>
 </html>

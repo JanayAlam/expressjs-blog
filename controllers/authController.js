@@ -1,8 +1,14 @@
 // encription
 const bcrypt = require('bcrypt');
 
+// validation
+const { validationResult } = require('express-validator');
+
 // models
 const User = require('../models/User');
+
+// utils
+const { formatter } = require('../utils/validationErrorFormatter');
 
 // module sraffolding
 const auth = {};
@@ -19,6 +25,7 @@ auth.signupGetController = (req, res, next) => {
     res.render('pages/auth/signup', {
         title: 'Signup',
         error: {},
+        value: {},
     });
 };
 
@@ -31,39 +38,19 @@ auth.signupGetController = (req, res, next) => {
  * @param {Function} next
  */
 auth.signupPostController = async (req, res, next) => {
-    let { username, email, password, confirmPassword } = req.body;
-    let error = {};
+    let { username, email, password } = req.body;
+    let errors = validationResult(req).formatWith(formatter);
 
-    // all required validation
-    if (username) {
-        if (username.trim().length > 15) {
-            error.username = 'Username must be lesser then 15 characters';
-        }
-    } else {
-        error.username = 'Username is required';
-    }
-
-    if (!email) {
-        error.email = 'Email is required';
-    }
-
-    if (!password) {
-        error.password = 'Password is required';
-    }
-
-    if (password !== confirmPassword) {
-        error.confirmPassword = 'Password did not matched';
-    }
-
-    const isError = Object.keys(error).length > 0;
-
-    if (isError) {
+    if (!errors.isEmpty()) {
         return res.render('pages/auth/signup', {
-            title: 'Create a new accout',
-            error,
+            title: 'Signup',
+            error: errors.mapped(),
+            value: {
+                username,
+                email,
+            },
         });
     }
-
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
@@ -73,9 +60,10 @@ auth.signupPostController = async (req, res, next) => {
         });
         const createdUser = await user.save();
         console.log('User Created', createdUser);
-        res.render('pages/auth/login', {
-            title: 'Signup',
+        return res.render('pages/auth/login', {
+            title: 'Login',
             error: {},
+            value: {},
         });
     } catch (e) {
         console.log(e);
@@ -83,12 +71,29 @@ auth.signupPostController = async (req, res, next) => {
     }
 };
 
+/**
+ * Login get controller
+ * Render the login page
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
 auth.loginGetController = (req, res, next) => {
     res.render('pages/auth/login', {
         title: 'Login',
         error: {},
     });
 };
+
+/**
+ * Login post controller
+ * Handle the post request from login form
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
 auth.loginPostController = async (req, res, next) => {
     const { email, password } = req.body;
 
