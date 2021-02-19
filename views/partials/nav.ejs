@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">Bloggin</a>
+        <a class="navbar-brand" href="/dashboard">Bloggin</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -16,16 +16,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/"
+                    <a class="nav-link" href="/dashboard"
                         >Dashboard <span class="sr-only">(current)</span></a
                     >
                 </li>
+                <% if (isLoggedIn) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/logout">Logout</a>
+                </li>
+                <% } else { %>
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/login">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/signup">Signup</a>
                 </li>
+                <% } %>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input

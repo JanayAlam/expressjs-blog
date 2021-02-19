@@ -81,7 +81,6 @@ auth.signupPostController = async (req, res, next) => {
  * @param {Function} next
  */
 auth.loginGetController = (req, res, next) => {
-    console.log(req.session);
     res.render('pages/auth/login', {
         title: 'Login',
         error: {},
@@ -139,13 +138,15 @@ auth.loginPostController = async (req, res, next) => {
             });
         }
 
+        // set user status to logged-in
         req.session.isLoggedIn = true;
         req.session.user = user;
-
-        res.render('pages/auth/login', {
-            title: 'Login',
-            error: {},
-            value: {},
+        req.session.save((error) => {
+            if (error) {
+                console.log(error);
+                return next();
+            }
+            res.redirect('/dashboard');
         });
     } catch (e) {
         console.log(e);
@@ -153,6 +154,22 @@ auth.loginPostController = async (req, res, next) => {
     }
 };
 
-auth.logoutController = (req, res, next) => {};
+/**
+ * Logout controller
+ * Handle the logout request from user
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Function} next
+ */
+auth.logoutController = (req, res, next) => {
+    req.session.destroy((error) => {
+        if (error) {
+            console.log(error);
+            return next();
+        }
+        return res.redirect('/auth/login');
+    });
+};
 
 module.exports = auth;
