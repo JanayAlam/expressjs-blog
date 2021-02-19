@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const { check, validationResult } = require('express-validator');
+const Flash = require('../utils/Flash');
 
 router.get('/validator', (req, res, next) => {
+    console.log(Flash.getMessage(req));
     return res.render('playground/signup.ejs', {
         title: 'Validator Playground',
     });
@@ -11,8 +13,8 @@ router.post(
     '/validator',
     [
         check('username')
-            .not()
             .isString()
+            .not()
             .isEmpty()
             .withMessage('Username is required')
             .isLength({ max: 15 })
@@ -38,12 +40,16 @@ router.post(
     (req, res, next) => {
         const errors = validationResult(req);
 
-        const formatter = (error) => error.msg;
-        console.log(errors.formatWith(formatter).mapped());
+        console.log(errors.mapped());
 
-        return res.render('playground/signup.ejs', {
-            title: 'Validator Playground',
-        });
+        // flash message
+        if (!errors.isEmpty()) {
+            req.flash('fail', 'There is some error');
+        } else {
+            req.flash('success', 'There is no error');
+        }
+
+        return res.redirect('/playground/validator');
     }
 );
 

@@ -1,7 +1,12 @@
-// applications
+// dependencies
 const express = require('express');
 const morgan = require('morgan');
+
+// database
 const mongoose = require('mongoose');
+
+// 3rd party
+const falsh = require('connect-flash');
 
 // session
 const session = require('express-session');
@@ -10,6 +15,9 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 // import routes
 const authRoute = require('./routes/authRoute');
 const dashboardRoute = require('./routes/dashboardRoute');
+
+// playground route
+const validatorRoute = require('./playground/validator'); // @TODO Delete later
 
 const app = express();
 
@@ -41,6 +49,7 @@ const middleware = [
     }),
     bindUserWithRequest(),
     bindLoggedIn(),
+    falsh(),
 ];
 
 // view engine setup
@@ -52,6 +61,7 @@ app.use(middleware);
 // routing
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/playground', validatorRoute); // @TODO Delete later
 
 app.get('/', (req, res) => {
     res.json({
