@@ -51,6 +51,7 @@ auth.signupPostController = async (req, res, next) => {
             },
         });
     }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
@@ -83,6 +84,7 @@ auth.loginGetController = (req, res, next) => {
     res.render('pages/auth/login', {
         title: 'Login',
         error: {},
+        value: {},
     });
 };
 
@@ -96,21 +98,15 @@ auth.loginGetController = (req, res, next) => {
  */
 auth.loginPostController = async (req, res, next) => {
     const { email, password } = req.body;
+    let errors = validationResult(req).formatWith(formatter);
 
-    if (!email) {
+    if (!errors.isEmpty()) {
         return res.render('pages/auth/login', {
             title: 'Login',
-            error: {
-                email: 'Email filed is required',
-            },
-        });
-    }
-
-    if (!password) {
-        return res.render('pages/auth/login', {
-            title: 'Login',
-            error: {
-                password: 'Password filed is required',
+            error: errors.mapped(),
+            value: {
+                email,
+                password,
             },
         });
     }
@@ -125,6 +121,7 @@ auth.loginPostController = async (req, res, next) => {
                     email: 'Invalid Credential',
                     password: 'Invalid Credential',
                 },
+                value: { email, password },
             });
         }
 
@@ -137,11 +134,13 @@ auth.loginPostController = async (req, res, next) => {
                     email: 'Invalid Credential',
                     password: 'Invalid Credential',
                 },
+                value: { email, password },
             });
         }
         res.render('pages/auth/login', {
             title: 'Login',
             error: {},
+            value: {},
         });
     } catch (e) {
         console.log(e);
