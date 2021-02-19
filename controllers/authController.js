@@ -81,6 +81,7 @@ auth.signupPostController = async (req, res, next) => {
  * @param {Function} next
  */
 auth.loginGetController = (req, res, next) => {
+    console.log(req.session);
     res.render('pages/auth/login', {
         title: 'Login',
         error: {},
@@ -137,6 +138,10 @@ auth.loginPostController = async (req, res, next) => {
                 value: { email, password },
             });
         }
+
+        req.session.isLoggedIn = true;
+        req.session.user = user;
+
         res.render('pages/auth/login', {
             title: 'Login',
             error: {},
