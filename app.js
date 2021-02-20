@@ -39,8 +39,14 @@ app.use((error, req, res, next) => {
         return res.render('pages/error/notFound.ejs', {
             flashMessage: {},
             title: 'Not Found',
+            status: 404,
         });
     }
+    res.render('pages/error/serverError.ejs', {
+        flashMessage: {},
+        title: 'Server Error',
+        status: error.status || 500,
+    });
 });
 
 const PORT = process.env.PORT || 8080;

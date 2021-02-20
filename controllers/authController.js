@@ -67,7 +67,6 @@ auth.signupPostController = async (req, res, next) => {
         req.flash('success', 'User created successfully');
         return res.redirect('/auth/login');
     } catch (e) {
-        console.log(e);
         next(e);
     }
 };
@@ -156,7 +155,6 @@ auth.loginPostController = async (req, res, next) => {
             res.redirect('/dashboard');
         });
     } catch (e) {
-        console.log(e);
         next(e);
     }
 };
@@ -172,7 +170,6 @@ auth.loginPostController = async (req, res, next) => {
 auth.logoutController = (req, res, next) => {
     req.session.destroy((error) => {
         if (error) {
-            console.log(error);
             return next();
         }
         return res.redirect('/auth/login');
