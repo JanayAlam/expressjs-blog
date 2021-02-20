@@ -1,0 +1,35 @@
+<%- include('../partials/header.ejs') %> 
+<div class="container my-container my-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+            <div class="card">
+                <div class="card-header text-white bg-dark">
+                    <h4 class="text-center my-2 font-weight-bold">Test Your Code</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/playground/play" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="username">
+                                Something
+                            </label>
+                            <input type="username" name="username" id="username" placeholder="Something dummy" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                              <input type="file" name="image-file" class="custom-file-input" id="image-file">
+                              <label class="custom-file-label" for="image-file">Choose file</label>
+                            </div>
+                          </div>
+                        <input type="submit" value="Submit" class="btn btn-outline-dark">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer.ejs') %>
+</body>
+</html>
