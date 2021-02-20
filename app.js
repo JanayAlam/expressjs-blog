@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 // 3rd party
 const falsh = require('connect-flash');
+const config = require('config');
 
 // session
 const session = require('express-session');
@@ -31,7 +32,11 @@ if (app.get('env').toLowerCase() === 'development') {
 const { bindUserWithRequest } = require('./middleware/authMiddleware');
 const { bindLoggedIn } = require('./middleware/setLocals');
 
-const DB_URI = `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@cluster0.8ez2y.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
+    'db-password'
+)}@cluster0.8ez2y.mongodb.net/${config.get(
+    'db-name'
+)}?retryWrites=true&w=majority`;
 
 // session store config
 const store = new MongoDBStore({
@@ -47,7 +52,7 @@ const middleware = [
     express.urlencoded({ extended: true }),
     express.json(),
     session({
-        secret: process.env.SECRET_KEY || 'SECRET_KEY',
+        secret: config.get('secret-key'),
         resave: false,
         saveUninitialized: false,
         store: store,

@@ -327,6 +327,13 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+config@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/config/-/config-3.3.3.tgz#d3c110fce543022c2fde28712e4f1b8440dee101"
+  integrity sha512-T3RmZQEAji5KYqUQpziWtyGJFli6Khz7h0rpxDwYNjSkr5ynyTWwO7WpfjHzTXclNCDfSWQRcwMb+NwxJesCKw==
+  dependencies:
+    json5 "^2.1.1"
+
 configstore@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/configstore/-/configstore-5.0.1.tgz#d365021b5df4b98cdd187d6a3b0e3f6a7cc5ed96"
@@ -925,6 +932,13 @@ json-buffer@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/json-buffer/-/json-buffer-3.0.0.tgz#5b1f397afc75d677bde8bcfc0e47e1f9a3d9a898"
   integrity sha1-Wx85evx11ne96Lz8Dkfh+aPZqJg=
+
+json5@^2.1.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
+  integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
+  dependencies:
+    minimist "^1.2.5"
 
 kareem@2.3.2:
   version "2.3.2"
