@@ -1,36 +1,16 @@
-// dependencies
 require('dotenv').config();
 const express = require('express');
-const morgan = require('morgan');
-
-// database
 const mongoose = require('mongoose');
-
-// 3rd party
-const falsh = require('connect-flash');
 const config = require('config');
-
-// session
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-
-// import routes
-const authRoute = require('./routes/authRoute');
-const dashboardRoute = require('./routes/dashboardRoute');
-
-// playground route
-// const validatorRoute = require('./playground/validator'); // @TODO Delete later
-
-const app = express();
-
-// setting morgan to only perform in development environment
-if (app.get('env').toLowerCase() === 'development') {
-    app.use(morgan('dev'));
-}
+const chalk = require('chalk');
 
 // middlewares
-const { bindUserWithRequest } = require('./middleware/authMiddleware');
-const { bindLoggedIn } = require('./middleware/setLocals');
+const setMiddleware = require('./middleware/middlewares');
+
+// import routes
+const setRoute = require('./routes/route');
+
+const app = express();
 
 const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
     'db-password'
@@ -38,46 +18,15 @@ const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
     'db-name'
 )}?retryWrites=true&w=majority`;
 
-// session store config
-const store = new MongoDBStore({
-    uri: DB_URI,
-    collection: 'sessions',
-    expires: 1000 * 60 * 60 * 2, // ms * s * m * h
-});
-
-// middleware Array
-const middleware = [
-    morgan('dev'),
-    express.static('public'),
-    express.urlencoded({ extended: true }),
-    express.json(),
-    session({
-        secret: config.get('secret-key'),
-        resave: false,
-        saveUninitialized: false,
-        store: store,
-    }),
-    bindUserWithRequest(),
-    bindLoggedIn(),
-    falsh(),
-];
-
 // view engine setup
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use(middleware);
+// using middleware from middlware/middlwares file
+setMiddleware(app);
 
-// routing
-app.use('/auth', authRoute);
-app.use('/dashboard', dashboardRoute);
-// app.use('/playground', validatorRoute); // @TODO Delete later
-
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Welcome',
-    });
-});
+// using routes from routes/route file
+setRoute(app);
 
 const PORT = process.env.PORT || 8080;
 
@@ -88,9 +37,9 @@ mongoose
     })
     .then(() => {
         app.listen(PORT, () => {
-            console.log(`Database connected`);
+            console.log(chalk.green(`Database connected`));
             console.log(`Server is running on PORT ${PORT}`);
-            console.log(`http://localhost:${PORT}`);
+            console.log('Visit: ' + chalk.green(`http://localhost:${PORT}`));
         });
     })
     .catch((e) => {
