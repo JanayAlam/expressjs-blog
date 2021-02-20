@@ -1,4 +1,5 @@
 // dependencies
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 
@@ -17,16 +18,20 @@ const authRoute = require('./routes/authRoute');
 const dashboardRoute = require('./routes/dashboardRoute');
 
 // playground route
-const validatorRoute = require('./playground/validator'); // @TODO Delete later
+// const validatorRoute = require('./playground/validator'); // @TODO Delete later
 
 const app = express();
+
+// setting morgan to only perform in development environment
+if (app.get('env').toLowerCase() === 'development') {
+    app.use(morgan('dev'));
+}
 
 // middlewares
 const { bindUserWithRequest } = require('./middleware/authMiddleware');
 const { bindLoggedIn } = require('./middleware/setLocals');
 
-const DB_URI =
-    'mongodb+srv://kryptonite:Alam-1234@cluster0.8ez2y.mongodb.net/ex-blog-db?retryWrites=true&w=majority';
+const DB_URI = `mongodb+srv://${process.env.DB_ADMIN}:${process.env.DB_PASSWORD}@cluster0.8ez2y.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 // session store config
 const store = new MongoDBStore({
@@ -61,7 +66,7 @@ app.use(middleware);
 // routing
 app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
-app.use('/playground', validatorRoute); // @TODO Delete later
+// app.use('/playground', validatorRoute); // @TODO Delete later
 
 app.get('/', (req, res) => {
     res.json({

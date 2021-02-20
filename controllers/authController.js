@@ -9,6 +9,7 @@ const User = require('../models/User');
 
 // utils
 const { formatter } = require('../utils/validationErrorFormatter');
+const Flash = require('../utils/Flash');
 
 // module sraffolding
 const auth = {};
@@ -26,6 +27,7 @@ auth.signupGetController = (req, res, next) => {
         title: 'Signup',
         error: {},
         value: {},
+        flashMessage: Flash.getMessage(req),
     });
 };
 
@@ -42,6 +44,7 @@ auth.signupPostController = async (req, res, next) => {
     let errors = validationResult(req).formatWith(formatter);
 
     if (!errors.isEmpty()) {
+        req.flash('fail', 'Please check your data');
         return res.render('pages/auth/signup', {
             title: 'Signup',
             error: errors.mapped(),
@@ -49,6 +52,7 @@ auth.signupPostController = async (req, res, next) => {
                 username,
                 email,
             },
+            flashMessage: Flash.getMessage(req),
         });
     }
 
@@ -59,13 +63,9 @@ auth.signupPostController = async (req, res, next) => {
             email,
             password: hashedPassword,
         });
-        const createdUser = await user.save();
-        console.log('User Created', createdUser);
-        return res.render('pages/auth/login', {
-            title: 'Login',
-            error: {},
-            value: {},
-        });
+        await user.save();
+        req.flash('success', 'User created successfully');
+        return res.redirect('/auth/login');
     } catch (e) {
         console.log(e);
         next(e);
@@ -85,6 +85,7 @@ auth.loginGetController = (req, res, next) => {
         title: 'Login',
         error: {},
         value: {},
+        flashMessage: Flash.getMessage(req),
     });
 };
 
@@ -101,6 +102,7 @@ auth.loginPostController = async (req, res, next) => {
     let errors = validationResult(req).formatWith(formatter);
 
     if (!errors.isEmpty()) {
+        req.flash('fail', 'Please check your data');
         return res.render('pages/auth/login', {
             title: 'Login',
             error: errors.mapped(),
@@ -108,12 +110,14 @@ auth.loginPostController = async (req, res, next) => {
                 email,
                 password,
             },
+            flashMessage: Flash.getMessage(req),
         });
     }
 
     try {
         const user = await User.findOne({ email: email });
 
+        req.flash('fail', 'Please provide valid Credentials');
         if (!user) {
             return res.render('pages/auth/login', {
                 title: 'Login',
@@ -122,6 +126,7 @@ auth.loginPostController = async (req, res, next) => {
                     password: 'Invalid Credential',
                 },
                 value: { email, password },
+                flashMessage: Flash.getMessage(req),
             });
         }
 
@@ -135,6 +140,7 @@ auth.loginPostController = async (req, res, next) => {
                     password: 'Invalid Credential',
                 },
                 value: { email, password },
+                flashMessage: Flash.getMessage(req),
             });
         }
 
@@ -146,6 +152,7 @@ auth.loginPostController = async (req, res, next) => {
                 console.log(error);
                 return next();
             }
+            req.flash('success', 'Successfully logged in');
             res.redirect('/dashboard');
         });
     } catch (e) {
