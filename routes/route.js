@@ -13,13 +13,20 @@ const routes = [
     {
         path: '/',
         controller: (req, res, next) => {
-            res.redirect('/dashboard');
+            // res.redirect('/dashboard');
+            res.json({
+                message: 'Welcome',
+            });
         },
     },
 ];
 
 module.exports = (app) => {
     routes.forEach((route) => {
-        app.use(route.path, route.controller);
+        if (route.path === '/') {
+            app.get(route.path, route.controller);
+        } else {
+            app.use(route.path, route.controller);
+        }
     });
 };

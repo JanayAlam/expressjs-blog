@@ -10,7 +10,7 @@ body {
     background: rgb(245, 245, 245);
 }
 .my-container {
-    min-height: 700px;
+    min-height: 724px;
 }
 footer {
     background: #232629;
@@ -19,7 +19,6 @@ footer {
     padding: 20px 0;
     bottom: 0;
     width: 100%;
-    position: absolute;
 }
 
 footer > .lead {

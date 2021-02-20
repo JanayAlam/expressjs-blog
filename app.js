@@ -28,6 +28,21 @@ setMiddleware(app);
 // using routes from routes/route file
 setRoute(app);
 
+app.use((req, res, next) => {
+    const error = new Error('404 page not found');
+    error.status = 404;
+    next(error);
+});
+
+app.use((error, req, res, next) => {
+    if (error.status === 404) {
+        return res.render('pages/error/notFound.ejs', {
+            flashMessage: {},
+            title: 'Not Found',
+        });
+    }
+});
+
 const PORT = process.env.PORT || 8080;
 
 mongoose
