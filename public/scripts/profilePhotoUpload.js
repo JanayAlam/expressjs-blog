@@ -68,8 +68,12 @@ window.onload = function () {
             })
             .then((res) => res.json())
             .then((data) => {
-                document.getElementById('removeProfilePhoto').style.display =
-                    'block';
+                document
+                    .getElementById('removeProfilePhoto')
+                    .classList.remove('d-none');
+                document
+                    .getElementById('removeProfilePhoto')
+                    .classList.add('d-block');
                 document.getElementById('profilePhotoFile').src =
                     data.profilePhoto;
                 document.getElementById('profilePhotoFrom').reset();
@@ -78,6 +82,29 @@ window.onload = function () {
                 setTimeout(() => {
                     baseCropping.croppie('destroy');
                 }, 1000);
+            });
+    });
+    $('#removeProfilePhoto').on('click', function () {
+        const req = new Request('/uploads/profilePhoto', {
+            method: 'DELETE',
+            mode: 'cors',
+        });
+
+        fetch(req)
+            .then((res) => res.json())
+            .then((data) => {
+                document
+                    .getElementById('removeProfilePhoto')
+                    .classList.remove('d-block');
+                document
+                    .getElementById('removeProfilePhoto')
+                    .classList.add('d-none');
+                document.getElementById('profilePhotoFile').src =
+                    data.profilePhoto;
+                document.getElementById('profilePhotoFrom').reset();
+            })
+            .catch((e) => {
+                alert('Server error occured!');
             });
     });
 };

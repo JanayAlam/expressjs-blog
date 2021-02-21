@@ -1,3 +1,4 @@
+const fs = require('fs');
 // models
 const User = require('../models/User');
 const Profile = require('../models/Profile');
@@ -47,6 +48,47 @@ upload.uploadProfilePhoto = async (req, res, next) => {
     } catch (e) {
         res.status(500).json({
             profilePhoto: req.user.profilePhoto,
+        });
+    }
+};
+
+upload.removeProfilePhoto = (req, res, next) => {
+    const defaultProfile = '/uploads/default.png';
+    try {
+        const currentProfilePhoto = req.user.profilePhoto;
+
+        fs.unlink(`public${currentProfilePhoto}`, async (error) => {
+            const profile = await Profile.findOne({ user: req.user._id });
+            if (profile) {
+                await Profile.findOneAndUpdate(
+                    {
+                        user: req.user._id,
+                    },
+                    {
+                        $set: {
+                            profilePhoto: defaultProfile,
+                        },
+                    }
+                );
+            }
+            await User.findOneAndUpdate(
+                {
+                    _id: req.user._id,
+                },
+                {
+                    $set: {
+                        profilePhoto: defaultProfile,
+                    },
+                }
+            );
+        });
+        res.status(200).json({
+            profilePhoto: defaultProfile,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: 'Cannot remove profile photo',
         });
     }
 };
