@@ -2,16 +2,47 @@
 const Flash = require('../utils/Flash');
 
 // models
-const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 // module sraffolding
 const dash = {};
 
-dash.dashboardGetController = (req, res, next) => {
-    res.render('pages/dashboard/dashboard.ejs', {
-        title: 'Dashboard',
-        flashMessage: Flash.getMessage(req),
-    });
+dash.dashboardGetController = async (req, res, next) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+            return res.render('pages/dashboard/dashboard.ejs', {
+                title: 'Dashboard',
+                flashMessage: Flash.getMessage(req),
+            });
+        }
+        res.redirect('dashboard/create-profile');
+    } catch (e) {
+        next(e);
+    }
 };
+
+dash.createProfileGetController = async (req, res, next) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (profile) {
+            return res.redirect('/dashboard/edit-profile');
+        }
+        res.render('pages/dashboard/create-profile', {
+            title: 'Create Profile',
+            flashMessage: Flash.getMessage(req),
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+dash.createProfilePostController = async (req, res, next) => {
+    
+};
+
+dash.editProfileGetController = async (req, res, next) => {};
+
+dash.editProfilePostController = async (req, res, next) => {};
 
 module.exports = dash;

@@ -116,8 +116,8 @@ auth.loginPostController = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: email });
 
-        req.flash('fail', 'Please provide valid Credentials');
         if (!user) {
+            req.flash('fail', 'Please provide valid Credentials');
             return res.render('pages/auth/login', {
                 title: 'Login',
                 error: {
@@ -132,6 +132,7 @@ auth.loginPostController = async (req, res, next) => {
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
+            req.flash('fail', 'Please provide valid Credentials');
             return res.render('pages/auth/login', {
                 title: 'Login',
                 error: {

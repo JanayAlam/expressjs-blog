@@ -9,10 +9,16 @@ const profileSchema = new Schema(
             ref: 'User',
             required: true,
         },
-        name: {
+        firstName: {
             type: String,
             trim: true,
-            maxlength: 30,
+            maxlength: 15,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            trim: true,
+            maxlength: 15,
             required: true,
         },
         title: {
@@ -27,6 +33,7 @@ const profileSchema = new Schema(
         },
         profilePhoto: {
             type: String,
+            default: '/uploads/default.png',
         },
         links: {
             website: String,

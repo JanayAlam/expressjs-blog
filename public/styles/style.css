@@ -24,3 +24,7 @@ footer {
 footer > .lead {
     font-size: 12px;
 }
+
+#profilePhotoFile {
+    border-radius: 50%;
+}
