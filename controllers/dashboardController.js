@@ -1,5 +1,7 @@
+const { validationResult } = require('express-validator');
 // utils
 const Flash = require('../utils/Flash');
+const { formatter } = require('../utils/validationErrorFormatter');
 
 // models
 const Profile = require('../models/Profile');
@@ -38,7 +40,13 @@ dash.createProfileGetController = async (req, res, next) => {
 };
 
 dash.createProfilePostController = async (req, res, next) => {
-    
+    const errors = validationResult(req).formatWith(formatter);
+    console.log(errors.mapped());
+
+    res.render('pages/dashboard/create-profile', {
+        title: 'Create Profile',
+        flashMessage: Flash.getMessage(req),
+    });
 };
 
 dash.editProfileGetController = async (req, res, next) => {};

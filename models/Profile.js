@@ -12,23 +12,25 @@ const profileSchema = new Schema(
         firstName: {
             type: String,
             trim: true,
-            maxlength: 15,
+            maxlength: 25,
             required: true,
         },
         lastName: {
             type: String,
             trim: true,
-            maxlength: 15,
+            maxlength: 25,
             required: true,
         },
         title: {
             type: String,
             trim: true,
+            required: true,
             maxlength: 100,
         },
         bio: {
             type: String,
             trim: true,
+            required: true,
             maxlength: 500,
         },
         profilePhoto: {
