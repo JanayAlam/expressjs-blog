@@ -42,6 +42,7 @@ app.use((error, req, res, next) => {
             status: 404,
         });
     }
+    console.log(error);
     res.render('pages/error/serverError.ejs', {
         flashMessage: {},
         title: 'Server Error',

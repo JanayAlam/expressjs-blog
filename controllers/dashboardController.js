@@ -32,6 +32,8 @@ dash.createProfileGetController = async (req, res, next) => {
         }
         res.render('pages/dashboard/create-profile', {
             title: 'Create Profile',
+            error: {},
+            value: {},
             flashMessage: Flash.getMessage(req),
         });
     } catch (e) {
@@ -41,12 +43,61 @@ dash.createProfileGetController = async (req, res, next) => {
 
 dash.createProfilePostController = async (req, res, next) => {
     const errors = validationResult(req).formatWith(formatter);
-    console.log(errors.mapped());
 
-    res.render('pages/dashboard/create-profile', {
-        title: 'Create Profile',
-        flashMessage: Flash.getMessage(req),
-    });
+    const {
+        firstName,
+        lastName,
+        title,
+        bio,
+        website,
+        linkedin,
+        facebook,
+        twitter,
+        github,
+    } = req.body;
+
+    if (!errors.isEmpty()) {
+        req.flash('fail', 'Please check your data');
+        return res.render('pages/dashboard/create-profile', {
+            title: 'Create Profile',
+            error: errors.mapped(),
+            value: {
+                firstName,
+                lastName,
+                title,
+                bio,
+                website,
+                linkedin,
+                facebook,
+                twitter,
+                github,
+            },
+            flashMessage: Flash.getMessage(req),
+        });
+    }
+
+    try {
+        const profile = new Profile({
+            user: req.user._id,
+            firstName,
+            lastName,
+            title,
+            bio,
+            profilePhoto: req.user.profilePhoto,
+            links: {
+                website,
+                linkedin,
+                facebook,
+                twitter,
+                github,
+            },
+        });
+        await profile.save();
+        req.flash('success', 'Profile created successfully');
+        return res.redirect('/dashboard');
+    } catch (e) {
+        next(e);
+    }
 };
 
 dash.editProfileGetController = async (req, res, next) => {};
