@@ -12,29 +12,29 @@ validatorObj.profileValidator = [
         .trim()
         .not()
         .isEmpty()
-        .withMessage('First name must not be empty'),
+        .withMessage('First name cannot not be empty'),
     body('lastName')
         .isLength({ max: 25 })
         .withMessage('Last name must be between 2 to 25 characters')
         .trim()
         .not()
         .isEmpty()
-        .withMessage('Last name must not be empty'),
+        .withMessage('Last name cannot not be empty'),
     body('title')
         .isString()
         .isLength({ max: 100 })
-        .withMessage('Title must not be greater than 100 charachters')
+        .withMessage('Title cannot not be greater than 100 characters')
         .not()
         .isEmpty()
-        .withMessage('Title must not be empty')
+        .withMessage('Title cannot not be empty')
         .trim(),
     body('bio')
         .isString()
         .isLength({ max: 500 })
-        .withMessage('Bio must not be greater than 500 charachters')
+        .withMessage('Bio cannot not be greater than 500 characters')
         .not()
         .isEmpty()
-        .withMessage('Bio must not be empty')
+        .withMessage('Bio cannot not be empty')
         .trim(),
     body('website').custom(urlValidator),
     body('linkedin').custom(urlValidator),
