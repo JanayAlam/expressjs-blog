@@ -5,6 +5,8 @@ const { formatter } = require('../utils/validationErrorFormatter');
 
 // models
 const Profile = require('../models/Profile');
+const User = require('../models/User');
+const { set } = require('mongoose');
 
 // module sraffolding
 const dash = {};
@@ -92,7 +94,15 @@ dash.createProfilePostController = async (req, res, next) => {
                 github,
             },
         });
-        await profile.save();
+        const createdProfile = await profile.save();
+        await User.findOneAndUpdate(
+            { _id: req.user._id },
+            {
+                $set: {
+                    profile: createdProfile._id,
+                },
+            }
+        );
         req.flash('success', 'Profile created successfully');
         return res.redirect('/dashboard');
     } catch (e) {
