@@ -47,22 +47,22 @@
                                         <div class="form-group row">
                                             <div class="col">
                                                 <label for="firstName" class="mb-0">First Name</label>
-                                                <input type="text" value="<%= value.firstName ? value.firstName : "" %>" id="firstName" name="firstName" class="form-control <%- error.firstName ? "is-invalid" : "" %>" placeholder="First name">
+                                                <input type="text" value="<%= profile.firstName ? profile.firstName : "" %>" id="firstName" name="firstName" class="form-control <%- error.firstName ? "is-invalid" : "" %>" placeholder="First name">
                                                 <div class="invalid-feedback">
                                                     <%= error.firstName %> 
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <label for="lastName" class="mb-0">Last Name</label>
-                                                <input type="text" value="<%= value.lastName ? value.lastName : "" %>" id="lastName" name="lastName" class="form-control <%- error.lastName ? "is-invalid" : "" %>" placeholder="Last name">
+                                                <input type="text" value="<%= profile.lastName ? profile.lastName : "" %>" id="lastName" name="lastName" class="form-control <%- error.lastName ? "is-invalid" : "" %>" placeholder="Last name">
                                                 <div class="invalid-feedback">
-                                                    <%= error.lastName %> 
+                                                    <%= error.lastName %>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="title" class="mb-0">Title</label>
-                                            <input type="text" value="<%= value.title ? value.title : "" %>" id="title" name="title"
+                                            <input type="text" value="<%= profile.title ? profile.title : "" %>" id="title" name="title"
                                             class="form-control <%- error.title ? "is-invalid" : "" %>" placeholder="A short title about your profile">
                                             <div class="invalid-feedback">
                                                 <%= error.title %>
@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="bio"class="mb-0">Bio</label>
-                                            <textarea name="bio" class="form-control <%- error.bio ? "is-invalid" : "" %>" id="bio" rows="3" placeholder="A short bio about yourself..."><%= value.bio ? value.bio : "" %></textarea>
+                                            <textarea name="bio" class="form-control <%- error.bio ? "is-invalid" : "" %>" id="bio" rows="3" placeholder="A short bio about yourself..."><%= profile.bio ? profile.bio : "" %></textarea>
                                             <div class="invalid-feedback">
                                                 <%= error.bio %>
                                             </div>
@@ -83,7 +83,7 @@
                                                         <i style="width: 16px;" class="fab fa-internet-explorer"></i>
                                                     </span>
                                                 </div>
-                                                <input value="<%= value.website ? value.website : "" %>" type="text" id="websiteLink" name="website"
+                                                <input value="<%= profile.links.website ? profile.links.website : "" %>" type="text" id="websiteLink" name="website"
                                                 class="form-control <%- error.website ? "is-invalid" : "" %>" placeholder="Website Link">
                                                 <div class="invalid-feedback">
                                                     <%= error.website %>
@@ -95,7 +95,7 @@
                                                         <i style="width: 16px;" class="fab fa-linkedin-in"></i>
                                                     </span>
                                                 </div>
-                                                <input value="<%= value.linkedin ? value.linkedin : "" %>" type="text" id="linkedinLink" name="linkedin"
+                                                <input value="<%= profile.links.linkedin ? profile.links.linkedin : "" %>" type="text" id="linkedinLink" name="linkedin"
                                                 class="form-control <%- error.linkedin ? "is-invalid" : "" %>" placeholder="Linkedin Profile">
                                                 <div class="invalid-feedback">
                                                     <%= error.linkedin %>
@@ -107,7 +107,7 @@
                                                         <i style="width: 16px;" class="fab fa-twitter"></i>
                                                     </span>
                                                 </div>
-                                                <input value="<%= value.twitter ? value.twitter : "" %>" type="text" id="twitterLink" name="twitter"
+                                                <input value="<%= profile.links.twitter ? profile.links.twitter : "" %>" type="text" id="twitterLink" name="twitter"
                                                 class="form-control <%- error.twitter ? "is-invalid" : "" %>" placeholder="Twitter Profile">
                                                 <div class="invalid-feedback">
                                                     <%= error.twitter %>
@@ -119,7 +119,7 @@
                                                         <i style="width: 16px;" class="fab fa-facebook-f"></i>
                                                     </span>
                                                 </div>
-                                                <input value="<%= value.facebook ? value.facebook : "" %>" type="text" id="facebookLink" name="facebook"
+                                                <input value="<%= profile.links.facebook ? profile.links.facebook : "" %>" type="text" id="facebookLink" name="facebook"
                                                 class="form-control <%- error.facebook ? "is-invalid" : "" %>" placeholder="Facebook Profile">
                                                 <div class="invalid-feedback">
                                                     <%= error.facebook %>
@@ -131,7 +131,7 @@
                                                         <i style="width: 16px;" class="fab fa-github"></i>
                                                     </span>
                                                 </div>
-                                                <input value="<%= value.github ? value.github : "" %>" type="text" id="githubLink" name="github"
+                                                <input value="<%= profile.links.github ? profile.links.github : "" %>" type="text" id="githubLink" name="github"
                                                 class="form-control <%- error.github ? "is-invalid" : "" %>" placeholder="Github Profile">
                                                 <div class="invalid-feedback">
                                                     <%= error.github %>

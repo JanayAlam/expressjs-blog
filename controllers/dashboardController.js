@@ -116,22 +116,10 @@ dash.editProfileGetController = async (req, res, next) => {
         if (!profile) {
             return res.redirect('dashboard/create-profile');
         }
-        const { firstName, lastName, title, bio, links } = profile;
-        const { facebook, twitter, linkedin, website, github } = links;
         res.render('pages/dashboard/edit-profile.ejs', {
             title: 'Edit Profile',
             error: {},
-            value: {
-                firstName,
-                lastName,
-                title,
-                bio,
-                facebook,
-                twitter,
-                linkedin,
-                website,
-                github,
-            },
+            profile,
             flashMessage: Flash.getMessage(req),
         });
     } catch (e) {
@@ -158,22 +146,24 @@ dash.editProfilePostController = async (req, res, next) => {
         return res.render('pages/dashboard/edit-profile.ejs', {
             title: 'Edit Profile',
             error: errors.mapped(),
-            value: {
+            profile: {
                 firstName,
                 lastName,
                 title,
                 bio,
-                website,
-                linkedin,
-                facebook,
-                twitter,
-                github,
+                links: {
+                    website,
+                    linkedin,
+                    facebook,
+                    twitter,
+                    github,
+                },
             },
             flashMessage: Flash.getMessage(req),
         });
     }
     try {
-        await Profile.findOneAndUpdate(
+        const updatedProfile = await Profile.findOneAndUpdate(
             { _id: req.user.profile },
             {
                 $set: {
@@ -189,9 +179,18 @@ dash.editProfilePostController = async (req, res, next) => {
                         github,
                     },
                 },
+            },
+            {
+                new: true,
             }
         );
-        return res.redirect('/dashboard');
+        req.flash('success', 'Profile updated successfully');
+        return res.render('pages/dashboard/edit-profile.ejs', {
+            title: 'Edit Profile',
+            error: errors.mapped(),
+            profile: updatedProfile,
+            flashMessage: Flash.getMessage(req),
+        });
     } catch (e) {
         next(e);
     }
