@@ -16,6 +16,8 @@ upload.uploadProfilePhoto = async (req, res, next) => {
         });
     }
 
+    const oldProfilePhoto = req.user.profilePhoto;
+
     try {
         const profile = await Profile.findOne({ user: req.user._id });
         const profilePhoto = `/uploads/${req.file.filename}`;
@@ -42,6 +44,13 @@ upload.uploadProfilePhoto = async (req, res, next) => {
                 },
             }
         );
+
+        if (oldProfilePhoto !== '/uploads/default.png') {
+            fs.unlink(`public${oldProfilePhoto}`, (error) => {
+                if (error) console.log(error);
+            });
+        }
+
         res.status(200).json({
             profilePhoto,
         });
