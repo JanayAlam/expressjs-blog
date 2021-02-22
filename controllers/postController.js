@@ -35,7 +35,7 @@ post.createPostPostController = async (req, res, next) => {
 
     // making tags string to array
     if (tags) {
-        tags = tags.split(',');
+        tags = tags.split(', ');
     }
 
     // read time
@@ -65,7 +65,7 @@ post.createPostPostController = async (req, res, next) => {
             { user: req.user._id },
             { $push: { posts: createdPost._id } }
         );
-        return res.redirect(`/posts/edit-post/${createdPost._id}`);
+        return res.redirect(`/posts/edit/${createdPost._id}`);
     } catch (e) {
         next(e);
     }

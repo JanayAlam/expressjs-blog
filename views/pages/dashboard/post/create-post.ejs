@@ -23,8 +23,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tags" class="mb-0">Tags (max 10 tags):</label>
-                            <input type="text" value="<%- value.tags ? value.tags : ''%>" class="form-control <%- error.tags ? "is-invalid" : "" %>" id="tags" name="tags" placeholder="Tag1,Tag2,Tag3">
+                            <label for="tags" class="mb-0">Tags* (max 10 tags & structure is important there):</label>
+                            <input type="text" value="<%- value.tags ? value.tags : ''%>" class="form-control <%- error.tags ? "is-invalid" : "" %>" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3">
                             <div class="invalid-feedback">
                                 <%= error.tags %>
                             </div>
