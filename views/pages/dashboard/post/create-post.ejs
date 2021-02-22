@@ -7,26 +7,38 @@
         <div class="col-md-10">
             <div class="col-md-8 offset-md-2">
                 <div class="card card-body mb-5 mt-2">
-                    <form action="/post/create" method="POST" enctype="multipart/form-data">
+                    <form action="/posts/create" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="title" class="mb-0">Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Title of your post">
+                            <label for="title" class="mb-0">Post Title* (maximum 100 chars):</label>
+                            <input name="title" value="<%- value.title ? value.title : ''%>" type="text" class="form-control <%- error.title ? "is-invalid" : "" %>" id="title"  placeholder="Title of your post">
+                            <div class="invalid-feedback">
+                                <%= error.title %>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="tiny-mce-post-body">Body:</label>
-                            <textarea name="body" id="tiny-mce-post-body" class="form-control" rows="10" placeholder="Whats on your mind..."></textarea>
+                            <label for="tiny-mce-post-body">Post Body* (maximum 5000 chars):</label>
+                            <textarea name="body" id="tiny-mce-post-body" class="form-control <%- error.body ? "is-invalid" : "" %>" placeholder="Whats on your mind..."><%- value.body ? value.body : ''%></textarea>
+                            <div class="invalid-feedback">
+                                <%= error.body %>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="tags" class="mb-0">Tags (max 10 tags):</label>
-                            <input type="text" class="form-control" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3">
+                            <input type="text" value="<%- value.tags ? value.tags : ''%>" class="form-control <%- error.tags ? "is-invalid" : "" %>" id="tags" name="tags" placeholder="Tag1,Tag2,Tag3">
+                            <div class="invalid-feedback">
+                                <%= error.tags %>
+                            </div>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span id="custom-file-input-span" class="input-group-text">Thumbnail</span>
                             </div>
                             <div class="custom-file">
-                              <input name="thumbnail" type="file" class="custom-file-input" id="thumbnail">
+                              <input name="thumbnail" type="file" class="custom-file-input <%- error.thumbnail ? "is-invalid" : "" %>" id="thumbnail">
                               <label class="custom-file-label" id="input-group-file" for="thumbnail">Choose file</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                <%= error.thumbnail %>
                             </div>
                         </div>
                         <div style="text-align: center;">

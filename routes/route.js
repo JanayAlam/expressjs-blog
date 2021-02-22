@@ -22,7 +22,7 @@ const routes = [
         controller: playgroundRoute,
     },
     {
-        path: '/post',
+        path: '/posts',
         controller: postRoute,
     },
     {
