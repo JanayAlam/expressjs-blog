@@ -173,5 +173,11 @@
 <%- include('../../partials/footer.ejs') %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.js"></script>
 <script src="/scripts/profilePhotoUpload.js"></script>
+<script>
+    $('#profilePhotoFileUpload').on('change', function(e) {
+        let filename = e.target.files[0].name;
+        $(this).next('.custom-file-label').html(filename);
+    })
+</script>
 </body>
 </html>

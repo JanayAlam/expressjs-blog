@@ -18,7 +18,7 @@ const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
 const store = new MongoDBStore({
     uri: DB_URI,
     collection: 'sessions',
-    expires: 1000 * 60 * 60 * 2, // ms * s * m * h
+    expires: 1000 * 60 * 60 * 24, // ms * s * m * h
 });
 
 const middlewares = [

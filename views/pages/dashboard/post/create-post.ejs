@@ -22,11 +22,11 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                              <span class="input-group-text">Thumbnail</span>
+                              <span id="custom-file-input-span" class="input-group-text">Thumbnail</span>
                             </div>
                             <div class="custom-file">
                               <input name="thumbnail" type="file" class="custom-file-input" id="thumbnail">
-                              <label class="custom-file-label" for="thumbnail">Choose file</label>
+                              <label class="custom-file-label" id="input-group-file" for="thumbnail">Choose file</label>
                             </div>
                         </div>
                         <div style="text-align: center;">
@@ -40,5 +40,11 @@
     </div>
 </div>
 <%- include('../../../partials/footer.ejs') %>
+<script>
+    $('#thumbnail').on('change', function(e) {
+        let filename = e.target.files[0].name;
+        $(this).next('.custom-file-label').html(filename);
+    })
+</script>
 </body>
 </html>
