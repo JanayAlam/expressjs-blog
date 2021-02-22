@@ -1,0 +1,44 @@
+<%- include('../../../partials/header.ejs') %> 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
+            <div class="col-md-8 offset-md-2">
+                <div class="card card-body mb-5 mt-2">
+                    <form action="/post/create" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="title" class="mb-0">Title:</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Title of your post">
+                        </div>
+                        <div class="form-group">
+                            <label for="tiny-mce-post-body">Body:</label>
+                            <textarea name="body" id="tiny-mce-post-body" class="form-control" rows="10" placeholder="Whats on your mind..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags" class="mb-0">Tags (max 10 tags):</label>
+                            <input type="text" class="form-control" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">Thumbnail</span>
+                            </div>
+                            <div class="custom-file">
+                              <input name="thumbnail" type="file" class="custom-file-input" id="thumbnail">
+                              <label class="custom-file-label" for="thumbnail">Choose file</label>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <input type="submit" value="Create Post" class="my-2 btn btn-outline-dark">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/footer.ejs') %>
+</body>
+</html>
