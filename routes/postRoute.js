@@ -4,6 +4,7 @@ const { postValidator } = require('../validator/dashboard/post/postValidator');
 const {
     createPostGetController,
     createPostPostController,
+    editPostGetController,
 } = require('../controllers/postController');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -15,5 +16,7 @@ router.post(
     postValidator,
     createPostPostController
 );
+
+router.get('/edit/:id', editPostGetController);
 
 module.exports = router;

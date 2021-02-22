@@ -54,7 +54,7 @@ post.createPostPostController = async (req, res, next) => {
     });
 
     if (req.file) {
-        post.thumbnail = `/uploads/${req.file.filename}`;
+        post.thumbnail = `uploads/${req.file.filename}`;
     }
 
     // saving post and updating profile
@@ -70,5 +70,21 @@ post.createPostPostController = async (req, res, next) => {
         next(e);
     }
 };
+
+post.editPostGetController = async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        return res.render('pages/dashboard/post/edit-post.ejs', {
+            title: 'Edit Post',
+            error: {},
+            post,
+            flashMessage: Flash.getMessage(req),
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+post.editPostPostController = async (req, res, next) => {};
 
 module.exports = post;

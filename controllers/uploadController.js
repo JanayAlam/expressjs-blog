@@ -3,9 +3,6 @@ const fs = require('fs');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
 
-// utils
-const Flash = require('../utils/Flash');
-
 // module sraffolding
 const upload = {};
 
@@ -103,7 +100,8 @@ upload.removeProfilePhoto = (req, res, next) => {
 };
 
 upload.postPhotoUpload = (req, res, next) => {
-    if (req.file) {
+    if (req.file.filename) {
+        console.log(req.file.filename);
         return res.status(200).json({
             imgUrl: `/uploads/${req.file.filename}`,
         });
