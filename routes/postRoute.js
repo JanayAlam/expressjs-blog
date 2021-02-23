@@ -5,6 +5,7 @@ const {
     createPostGetController,
     createPostPostController,
     editPostGetController,
+    editPostPostController,
 } = require('../controllers/postController');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -17,6 +18,20 @@ router.post(
     createPostPostController
 );
 
-router.get('/edit/:id', editPostGetController);
+router.get(
+    '/edit/:id',
+    isAuthenticated,
+    upload.single('thumbnail'),
+    postValidator,
+    editPostGetController
+);
+
+router.post(
+    '/edit/:id',
+    isAuthenticated,
+    upload.single('thumbnail'),
+    postValidator,
+    editPostPostController
+);
 
 module.exports = router;

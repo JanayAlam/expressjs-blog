@@ -6,45 +6,50 @@
         </div>
         <div class="col-md-10">
             <div class="col-md-8 offset-md-2">
-                <div class="card card-body mb-5 mt-2">
-                    <form action="/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="title" class="mb-0">Post Title* (maximum 100 chars):</label>
-                            <input name="title" value="<%- post.title ? post.title : ''%>" type="text" class="form-control <%- error.title ? "is-invalid" : "" %>" id="title"  placeholder="Title of your post">
-                            <div class="invalid-feedback">
-                                <%= error.title %>
+                <div class="card mb-5 mt-2">
+                    <% if (post.thumbnail) { %> 
+                    <img class="card-img-top" style="object-fit: none; height: 400px;" src="<%= post.thumbnail %>" alt="Card image cap">
+                    <% } %> 
+                    <div class="card-body">
+                        <form action="/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span id="custom-file-input-span" class="input-group-text">Thumbnail</span>
+                                </div>
+                                <div class="custom-file">
+                                  <input name="thumbnail" type="file" class="custom-file-input <%- error.thumbnail ? "is-invalid" : "" %>" id="thumbnail">
+                                  <label class="custom-file-label" id="input-group-file" for="thumbnail">Recomended size 1149*400</label>
+                                </div>
+                                <div class="invalid-feedback">
+                                    <%= error.thumbnail %>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tiny-mce-post-body">Post Body* (maximum 5000 chars):</label>
-                            <textarea name="body" id="tiny-mce-post-body" class="form-control <%- error.body ? "is-invalid" : "" %>" placeholder="Whats on your mind..."><%- post.body ? post.body : ''%></textarea>
-                            <div class="invalid-feedback">
-                                <%= error.body %>
+                            <div class="form-group">
+                                <label for="title" class="mb-0">Post Title* (maximum 100 chars):</label>
+                                <input name="title" value="<%- post.title ? post.title : ''%>" type="text" class="form-control <%- error.title ? "is-invalid" : "" %>" id="title"  placeholder="Title of your post">
+                                <div class="invalid-feedback">
+                                    <%= error.title %>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tags" class="mb-0">Tags* (max 10 tags & structure is important there):</label>
-                            <input type="text" value="<%- post.tags ? post.tags : ''%>" class="form-control <%- error.tags ? "is-invalid" : "" %>" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3">
-                            <div class="invalid-feedback">
-                                <%= error.tags %>
+                            <div class="form-group">
+                                <label for="tiny-mce-post-body">Post Body* (maximum 5000 chars):</label>
+                                <textarea name="body" id="tiny-mce-post-body" class="form-control <%- error.body ? "is-invalid" : "" %>" placeholder="Whats on your mind..."><%- post.body ? post.body : ''%></textarea>
+                                <div class="invalid-feedback">
+                                    <%= error.body %>
+                                </div>
                             </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span id="custom-file-input-span" class="input-group-text">Thumbnail</span>
+                            <div class="form-group">
+                                <label for="tags" class="mb-0">Tags* (max 10 tags & structure is important there):</label>
+                                <input type="text" value="<%- post.tags.length > 0 ? post.tags.join(', ') : ''%>" class="form-control <%- error.tags ? "is-invalid" : "" %>" id="tags" name="tags" placeholder="Tag1, Tag2, Tag3">
+                                <div class="invalid-feedback">
+                                    <%= error.tags %>
+                                </div>
                             </div>
-                            <div class="custom-file">
-                              <input value="<%- post.thumbnail ? post.thumbnail : ''%>" name="thumbnail" type="file" class="custom-file-input <%- error.thumbnail ? "is-invalid" : "" %>" id="thumbnail">
-                              <label class="custom-file-label" id="input-group-file" for="thumbnail">Choose file</label>
+                            <div style="text-align: center;">
+                                <input type="submit" value="Update Post" class="my-2 btn btn-outline-dark">
                             </div>
-                            <div class="invalid-feedback">
-                                <%= error.thumbnail %>
-                            </div>
-                        </div>
-                        <div style="text-align: center;">
-                            <input type="submit" value="Update Post" class="my-2 btn btn-outline-dark">
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

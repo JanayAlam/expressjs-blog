@@ -20,7 +20,7 @@ dash.dashboardGetController = async (req, res, next) => {
                 flashMessage: Flash.getMessage(req),
             });
         }
-        res.redirect('dashboard/create-profile.ejs');
+        res.redirect('dashboard/create-profile');
     } catch (e) {
         next(e);
     }
