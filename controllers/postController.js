@@ -37,7 +37,8 @@ post.createPostPostController = async (req, res, next) => {
 
     // making tags string to array
     if (tags) {
-        tags = tags.split(', ');
+        tags = tags.split(',');
+        tags = tags.map((tag) => tag.trim());
     }
 
     // read time
@@ -127,7 +128,8 @@ post.editPostPostController = async (req, res, next) => {
 
         // making tags string to array
         if (tags) {
-            tags = tags.split(', ');
+            tags = tags.split(',');
+            tags = tags.map((tag) => tag.trim());
         }
 
         // read time
