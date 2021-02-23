@@ -68,6 +68,7 @@ post.createPostPostController = async (req, res, next) => {
             { user: req.user._id },
             { $push: { posts: createdPost._id } }
         );
+        req.flash('success', 'Post created successfully');
         return res.redirect(`/posts/edit/${createdPost._id}`);
     } catch (e) {
         next(e);
@@ -164,6 +165,7 @@ post.editPostPostController = async (req, res, next) => {
             { $set: updatedPost },
             { new: true }
         );
+        req.flash('success', 'Post updated successfully');
         return res.render('pages/dashboard/post/edit-post.ejs', {
             title: 'Edit Post',
             error: {},
