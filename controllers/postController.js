@@ -5,10 +5,17 @@ const Post = require('../models/Post');
 const readingTime = require('reading-time');
 const Profile = require('../models/Profile');
 const fs = require('fs');
-const error = require('../utils/validationErrorFormatter');
 
 const post = {};
 
+/**
+ * Create post GET controller
+ * Render the create post view
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
 post.createPostGetController = (req, res, next) => {
     return res.render('pages/dashboard/post/create-post.ejs', {
         title: 'Create Post',
@@ -18,6 +25,14 @@ post.createPostGetController = (req, res, next) => {
     });
 };
 
+/**
+ * Create post POST controller
+ * Create the post, save it into the database and response back to the client
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
 post.createPostPostController = async (req, res, next) => {
     let { title, body, tags } = req.body;
     const errors = validationResult(req).formatWith(formatter);
@@ -75,6 +90,14 @@ post.createPostPostController = async (req, res, next) => {
     }
 };
 
+/**
+ * Edit post GET controller
+ * Render the edit post view
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
 post.editPostGetController = async (req, res, next) => {
     try {
         const post = await Post.findOne({
@@ -99,6 +122,14 @@ post.editPostGetController = async (req, res, next) => {
     }
 };
 
+/**
+ * Edit post POST controller
+ * Edit the post, update it into the database and response back to the client
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
 post.editPostPostController = async (req, res, next) => {
     try {
         let post = await Post.findOne({
@@ -172,6 +203,48 @@ post.editPostPostController = async (req, res, next) => {
             post: newPost,
             flashMessage: Flash.getMessage(req),
         });
+    } catch (e) {
+        next(e);
+    }
+};
+
+/**
+ * Delete post  controller
+ * Delete the post, remove it from the database and redirect to dashboard
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
+post.deletePostController = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        let post = await Post.findOne({
+            author: req.user._id,
+            _id: id,
+        });
+        if (!post) {
+            let error = new Error(
+                'Post not found or user have no access on it'
+            );
+            error.status = 404;
+            throw error;
+        }
+
+        fs.unlink(`public/${post.thumbnail}`, (error) => {
+            if (error) {
+                error.status = 500;
+                throw error;
+            }
+        });
+
+        await Post.findOneAndDelete({ _id: id });
+        await Profile.findOneAndUpdate(
+            { _id: post.author },
+            { $pull: { posts: id } }
+        );
+        req.flash('success', 'Post deleted successfully');
+        res.redirect('/dashboard');
     } catch (e) {
         next(e);
     }

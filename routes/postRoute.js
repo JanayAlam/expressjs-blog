@@ -6,6 +6,7 @@ const {
     createPostPostController,
     editPostGetController,
     editPostPostController,
+    deletePostController,
 } = require('../controllers/postController');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -33,5 +34,7 @@ router.post(
     postValidator,
     editPostPostController
 );
+
+router.get('/delete/:id', isAuthenticated, deletePostController);
 
 module.exports = router;
