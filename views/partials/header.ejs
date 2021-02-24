@@ -8,19 +8,30 @@
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         <link
+            href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
+        <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="/styles/style.css" />
-        <script src="https://kit.fontawesome.com/cca6f601d2.js" crossorigin="anonymous"></script>
+        <script
+            src="https://kit.fontawesome.com/cca6f601d2.js"
+            crossorigin="anonymous"
+        ></script>
     </head>
     <body>
         <%- include('./nav.ejs') %>
         <div class="container">
-            <div class="col-10 offset-1">
-                <%- include('./alert.ejs') %>
-            </div>
+            <div class="col-10 offset-1"><%- include('./alert.ejs') %></div>
         </div>
-
+    </body>
+</html>

@@ -1,7 +1,12 @@
 <%- include('../../partials/header.ejs') %> 
-<div class="container my-container my-5">
+<div class="container-fluid my-container">
     <div class="row">
-        <h1 class="display-1 text-center">Welcome to your dashboard</h1>
+        <div class="col-md-2">
+            <%- include('../../partials/sidenavbar.ejs') %> 
+        </div>
+        <div class="col-md-10">
+            <h1 class="display-1 text-center">Welcome to your dashboard</h1>
+        </div>
     </div>
 </div>
 <%- include('../../partials/footer.ejs') %>

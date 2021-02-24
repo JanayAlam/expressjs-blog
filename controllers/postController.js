@@ -9,6 +9,29 @@ const fs = require('fs');
 const post = {};
 
 /**
+ * Get posts controller
+ * Render the all posts view with all the post that the user posted before
+ *
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {Function} next
+ */
+post.getPosts = async (req, res, next) => {
+    try {
+        let posts = await Post.find({ author: req.user._id });
+
+        return res.render('pages/dashboard/post/posts.ejs', {
+            title: 'Posts',
+            error: {},
+            posts,
+            flashMessage: Flash.getMessage(req),
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+/**
  * Create post GET controller
  * Render the create post view
  *
@@ -231,12 +254,14 @@ post.deletePostController = async (req, res, next) => {
             throw error;
         }
 
-        fs.unlink(`public/${post.thumbnail}`, (error) => {
-            if (error) {
-                error.status = 500;
-                throw error;
-            }
-        });
+        if (post.thumbnail) {
+            fs.unlink(`public/${post.thumbnail}`, (error) => {
+                if (error) {
+                    error.status = 500;
+                    throw error;
+                }
+            });
+        }
 
         await Post.findOneAndDelete({ _id: id });
         await Profile.findOneAndUpdate(
@@ -244,7 +269,7 @@ post.deletePostController = async (req, res, next) => {
             { $pull: { posts: id } }
         );
         req.flash('success', 'Post deleted successfully');
-        res.redirect('/dashboard');
+        res.redirect('/posts');
     } catch (e) {
         next(e);
     }

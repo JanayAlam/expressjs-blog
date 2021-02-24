@@ -1,0 +1,66 @@
+<%- include('../../../partials/header.ejs') %> 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <%- include('../../../partials/sidenavbar.ejs') %> 
+        </div>
+        <div class="col-md-10">
+            <div class="card mt-2 mb-5">
+                <div class="card-header text-center bg-white">
+                    <div class="align-items-center">
+                        List of Posts
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <% if (posts.length === 0) { %> 
+                        <div class="text-center text-muted col-12">
+                            <p>There is no posts available right now</p>
+                            <hr>
+                            <a href="/posts/create" class="btn btn-outline-dark">
+                                <span class="d-flex">
+                                    <div class="material-icons">add</div>
+                                    <div class="ml-1" style="font-size: 18px;">Create Post Now</div>
+                                </span>
+                            </a>
+                        </div>
+                        <% } else { %>
+                            <div class="col-12 text-center">
+                                <a href="/posts/create" style="width: 100%;" class="btn btn-outline-dark">
+                                    <span class="d-flex justify-content-center">
+                                        <div class="material-icons">add</div>
+                                        <div class="ml-1" style="font-size: 18px;">Create Post</div>
+                                    </span>
+                                </a>
+                                <hr>
+                            </div>
+                            <% for (let post of posts.reverse()) { %>
+                                <div class="card col-sm-3 mx-2">
+                                    <% if (post.thumbnail) { %>
+                                        <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="card-img-to mt-3"> 
+                                    <% } %> 
+                                    <div class="card-body">
+                                        <a href="/posts/edit/<%= post._id %>" style="color: #222;">
+                                            <h5><%= post.title %> </h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../../../partials/footer.ejs') %>
+<script src="https://cdn.tiny.cloud/1/2y457w1ly24kixv5ri8slu3ili8j1tedg2y11c2k76kjx0zm/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/scripts/tinyMce.js"></script>
+<script>
+    $('#thumbnail').on('change', function(e) {
+        let filename = e.target.files[0].name;
+        $(this).next('.custom-file-label').html(filename);
+    })
+</script>
+</body>
+</html>

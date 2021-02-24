@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { isAuthenticated } = require('../middleware/authMiddleware');
 const { postValidator } = require('../validator/dashboard/post/postValidator');
 const {
+    getPosts,
     createPostGetController,
     createPostPostController,
     editPostGetController,
@@ -10,7 +11,10 @@ const {
 } = require('../controllers/postController');
 const upload = require('../middleware/uploadMiddleware');
 
+router.get('/', isAuthenticated, getPosts);
+
 router.get('/create', isAuthenticated, createPostGetController);
+
 router.post(
     '/create',
     isAuthenticated,
