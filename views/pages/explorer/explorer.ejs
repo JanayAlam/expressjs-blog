@@ -1,0 +1,101 @@
+<%- include('../../partials/header.ejs') %>
+
+<div class="container mt-2 mb-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <section class="mb-5">
+                <a
+                    href="/explore?filter=latest"
+                    class="btn <%= filter==='latest' ? 'btn-primary' : 'btn-secondary'%>"
+                >
+                    Latest
+                </a>
+                <a
+                    href="/explore?filter=week"
+                    class="btn <%= filter==='week' ? 'btn-primary' : 'btn-secondary'%>"
+                >
+                    Week
+                </a>
+                <a
+                    href="/explore?filter=month"
+                    class="btn <%= filter==='month' ? 'btn-primary' : 'btn-secondary'%>"
+                >
+                    Month
+                </a>
+                <a
+                    href="/explore?filter=all"
+                    class="btn <%= filter==='all' ? 'btn-primary' : 'btn-secondary'%>"
+                >
+                    All
+                </a>
+            </section>
+            <section>
+                <% if (posts.length === 0) { %>
+                <p class="text-muted text-center dispay-3">
+                    There is nothing to show
+                </p>
+                <% } else { %> <% for (let post of posts) { %>
+                <div class="card card-body mb-3">
+                    <% if (post.thumbnail) { %>
+                    <img
+                        class="img-fluid mb-2"
+                        src="<%= post.thumbnail %>"
+                        alt="thumbnail"
+                    />
+                    <% } %>
+                    <a href="/explore/<%= post._id %>" style="color: #222">
+                        <h5><%= post.title %></h5>
+                        <p class="mb-4"><%= truncate(post.body) %></p>
+                    </a>
+                    <div class="d-flex">
+                        <small class="text-muted">
+                            <%= moment(post.createdAt) %>, Posted by <%=
+                            post.author.username %>, <%= post.readTime %>
+                        </small>
+                    </div>
+                </div>
+                <% } %> <% } %>
+            </section>
+            <% if (totalPages > 1) { %>
+            <nav>
+                <ul class="pagination">
+                    <li
+                        class="page-item <%= currentPage === 1 ? 'disabled' : '' %>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%= `/explore?filter=${filter}&currentPage=${currentPage - 1}` %> "
+                        >
+                            Previous
+                        </a>
+                    </li>
+                    <% for (let i=1; i<=totalPages; i++) { %>
+                    <li
+                        class="page-item <%= currentPage === i ? 'active' : '' %>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%= `/explore?filter=${filter}&currentPage=${i}` %> "
+                        >
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li
+                        class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%= `/explore?filter=${filter}&currentPage=${currentPage + 1}` %> "
+                        >
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
