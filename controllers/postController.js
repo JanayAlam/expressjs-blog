@@ -232,7 +232,7 @@ post.editPostPostController = async (req, res, next) => {
 };
 
 /**
- * Delete post  controller
+ * Delete post controller
  * Delete the post, remove it from the database and redirect to dashboard
  *
  * @param {Object} req Request object

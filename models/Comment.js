@@ -19,22 +19,24 @@ const commentSchema = new Schema(
             required: true,
             trim: true,
         },
-        replies: {
-            body: {
-                type: String,
-                trim: true,
-                required: true,
+        replies: [
+            {
+                body: {
+                    type: String,
+                    trim: true,
+                    required: true,
+                },
+                user: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User',
+                    required: true,
+                },
+                createdAt: {
+                    type: Date,
+                    default: new Date(),
+                },
             },
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'User',
-                required: true,
-            },
-            createdAt: {
-                type: Date,
-                default: new Date(),
-            },
-        },
+        ],
     },
     {
         timestamps: true,
