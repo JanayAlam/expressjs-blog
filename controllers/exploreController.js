@@ -2,6 +2,7 @@ const moment = require('moment');
 
 const Flash = require('../utils/Flash');
 const Post = require('../models/Post');
+const Profile = require('../models/Profile');
 
 const explore = {};
 
@@ -64,6 +65,14 @@ explore.explorerGetController = async (req, res, next) => {
         const totalPost = await Post.countDocuments();
         const totalPages = Math.ceil(totalPost / itemPerPage);
 
+        let bookmarks = [];
+        if (req.user) {
+            const profile = await Profile.findOne({ user: req.user._id });
+            if (profile) {
+                bookmarks = profile.bookmarks;
+            }
+        }
+
         res.render('pages/explorer/explorer.ejs', {
             title: 'Explore',
             filter,
@@ -72,6 +81,7 @@ explore.explorerGetController = async (req, res, next) => {
             totalPages,
             itemPerPage,
             currentPage,
+            bookmarks,
         });
     } catch (e) {
         next(e);

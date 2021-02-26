@@ -34,20 +34,19 @@ bookmarks.addBookmark = async (req, res, next) => {
         if (profile.bookmarks.includes(postId)) {
             await Profile.findOneAndUpdate(
                 { user: userId },
-                { $pull: { bookmakrs: postId } }
+                { $pull: { bookmarks: postId } }
             );
             bookmarked = false;
         } else {
             await Profile.findOneAndUpdate(
                 { user: userId },
-                { $push: { bookmakrs: postId } }
+                { $push: { bookmarks: postId } }
             );
             bookmarked = true;
         }
 
         res.status(200).json({
             bookmarked,
-            totalBookmarkes: updatedPost.bookmarks.length,
         });
     } catch (e) {
         console.log(e);
