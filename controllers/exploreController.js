@@ -1,17 +1,40 @@
+// dependencies
 const moment = require('moment');
 
+// utils
 const Flash = require('../utils/Flash');
+
+// models
 const Post = require('../models/Post');
 const Profile = require('../models/Profile');
 
+// module scaffolding
 const explore = {};
 
-explore._genarateDate = (days) => {
+/**
+ * Generate Date
+ *
+ * Generate first day exactly a number of days ago
+ *
+ * @param days
+ * @returns {Date}
+ * @private
+ */
+explore._generateDate = (days) => {
     const date = moment().subtract(days, 'days');
     return date.toDate();
 };
 
-explore._genarateFilterObject = (filter) => {
+/**
+ * Generate Filter Object
+ *
+ * Generate a object for according to week, month or all post
+ *
+ * @param filter
+ * @returns {{filterObject: {}, order: number}}
+ * @private
+ */
+explore._generateFilterObject = (filter) => {
     let filterObject = {};
     let order = 1;
 
@@ -19,7 +42,7 @@ explore._genarateFilterObject = (filter) => {
         case 'week': {
             filterObject = {
                 createdAt: {
-                    $gt: explore._genarateDate(7),
+                    $gt: explore._generateDate(7),
                 },
             };
             order = -1;
@@ -28,7 +51,7 @@ explore._genarateFilterObject = (filter) => {
         case 'month': {
             filterObject = {
                 createdAt: {
-                    $gt: explore._genarateDate(30),
+                    $gt: explore._generateDate(30),
                 },
             };
             order = -1;
@@ -46,12 +69,22 @@ explore._genarateFilterObject = (filter) => {
     };
 };
 
+/**
+ * Explorer GET controller
+ *
+ * Render the explorer view with the filter
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<void>}
+ */
 explore.explorerGetController = async (req, res, next) => {
     const filter = req.query.filter || 'latest';
     let currentPage = parseInt(req.query.currentPage) || 1;
     let itemPerPage = 10;
 
-    const { order, filterObject } = explore._genarateFilterObject(
+    const { order, filterObject } = explore._generateFilterObject(
         filter.toLowerCase()
     );
 
@@ -88,6 +121,16 @@ explore.explorerGetController = async (req, res, next) => {
     }
 };
 
+/**
+ * Single post GET controller
+ *
+ * Render the single post view
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<void>}
+ */
 explore.singlePostGetController = async (req, res, next) => {
     const { postId } = req.params;
 
@@ -114,7 +157,7 @@ explore.singlePostGetController = async (req, res, next) => {
 
         if (!post) {
             let error = new Error(`404 post not found`);
-            error.stack = 404;
+            error.status = 404;
             throw error;
         }
 

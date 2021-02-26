@@ -1,20 +1,29 @@
-const Flash = require('../utils/Flash');
-const { validationResult } = require('express-validator');
-const { formatter } = require('../utils/validationErrorFormatter');
-const Post = require('../models/Post');
+// dependencies
 const readingTime = require('reading-time');
-const Profile = require('../models/Profile');
 const fs = require('fs');
 
+// utils
+const Flash = require('../utils/Flash');
+
+// validation
+const { validationResult } = require('express-validator');
+const { formatter } = require('../utils/validationErrorFormatter');
+
+// models
+const Post = require('../models/Post');
+const Profile = require('../models/Profile');
+
+// module scaffolding
 const post = {};
 
 /**
  * Get posts controller
+ *
  * Render the all posts view with all the post that the user posted before
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
+ * @param {next} next
  */
 post.getPosts = async (req, res, next) => {
     try {
@@ -33,13 +42,13 @@ post.getPosts = async (req, res, next) => {
 
 /**
  * Create post GET controller
+ *
  * Render the create post view
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  */
-post.createPostGetController = (req, res, next) => {
+post.createPostGetController = (req, res) => {
     return res.render('pages/dashboard/post/create-post.ejs', {
         title: 'Create Post',
         error: {},
@@ -50,11 +59,12 @@ post.createPostGetController = (req, res, next) => {
 
 /**
  * Create post POST controller
+ *
  * Create the post, save it into the database and response back to the client
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
+ * @param {next} next
  */
 post.createPostPostController = async (req, res, next) => {
     let { title, body, tags } = req.body;
@@ -115,11 +125,12 @@ post.createPostPostController = async (req, res, next) => {
 
 /**
  * Edit post GET controller
+ *
  * Render the edit post view
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
+ * @param {next} next
  */
 post.editPostGetController = async (req, res, next) => {
     try {
@@ -147,11 +158,12 @@ post.editPostGetController = async (req, res, next) => {
 
 /**
  * Edit post POST controller
+ *
  * Edit the post, update it into the database and response back to the client
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
+ * @param {next} next
  */
 post.editPostPostController = async (req, res, next) => {
     try {
@@ -233,11 +245,12 @@ post.editPostPostController = async (req, res, next) => {
 
 /**
  * Delete post controller
+ *
  * Delete the post, remove it from the database and redirect to dashboard
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
+ * @param {next} next
  */
 post.deletePostController = async (req, res, next) => {
     const { id } = req.params;

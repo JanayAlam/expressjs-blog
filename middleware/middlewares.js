@@ -1,20 +1,29 @@
+// dependencies
 const express = require('express');
 const morgan = require('morgan');
-const falsh = require('connect-flash');
+const flash = require('connect-flash');
+
+// session
 const session = require('express-session');
+
+// database
 const MongoDBStore = require('connect-mongodb-session')(session);
+
+// configuration
 const config = require('config');
 
+// middleware
 const { bindUserWithRequest } = require('./authMiddleware');
 const { bindLoggedIn } = require('./setLocals');
 
+// database URI
 const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
     'db-password'
 )}@cluster0.8ez2y.mongodb.net/${config.get(
     'db-name'
 )}?retryWrites=true&w=majority`;
 
-// session store config
+// session store configuration
 const store = new MongoDBStore({
     uri: DB_URI,
     collection: 'sessions',
@@ -32,7 +41,7 @@ const middlewares = [
         saveUninitialized: false,
         store: store,
     }),
-    falsh(),
+    flash(),
     bindUserWithRequest(),
     bindLoggedIn(),
 ];

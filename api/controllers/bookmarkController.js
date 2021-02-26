@@ -4,14 +4,14 @@ const bookmarks = {};
 
 /**
  * Add bookmark of a post
+ *
  * Handle the add bookmark event of the client
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  * @returns {Object}
  */
-bookmarks.addBookmark = async (req, res, next) => {
+bookmarks.addBookmark = async (req, res) => {
     const { postId } = req.params;
     let bookmarked = null;
 

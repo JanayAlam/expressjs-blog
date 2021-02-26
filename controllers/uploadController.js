@@ -1,12 +1,23 @@
+// dependencies
 const fs = require('fs');
+
 // models
 const User = require('../models/User');
 const Profile = require('../models/Profile');
 
-// module sraffolding
+// module scaffolding
 const upload = {};
 
-upload.uploadProfilePhoto = async (req, res, next) => {
+/**
+ * Upload Profile Photo
+ *
+ * Handle the upload profile photo request
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<*>}
+ */
+upload.uploadProfilePhoto = async (req, res) => {
     if (!req.file) {
         return res.status(500).json({
             profilePhoto: req.user.profilePhoto,
@@ -58,7 +69,16 @@ upload.uploadProfilePhoto = async (req, res, next) => {
     }
 };
 
-upload.removeProfilePhoto = (req, res, next) => {
+/**
+ * Remove Profile Photo
+ *
+ * Handle the remove profile photo request
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<*>}
+ */
+upload.removeProfilePhoto = (req, res) => {
     const defaultProfile = '/uploads/default.png';
     try {
         const currentProfilePhoto = req.user.profilePhoto;
@@ -99,7 +119,16 @@ upload.removeProfilePhoto = (req, res, next) => {
     }
 };
 
-upload.postPhotoUpload = (req, res, next) => {
+/**
+ * Post Body Upload Photo
+ *
+ * Handle the upload image with body request
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {Promise<*>} JSON object {imgUrl} | error
+ */
+upload.postPhotoUpload = (req, res) => {
     if (req.file.filename) {
         return res.status(200).json({
             imgUrl: `/uploads/${req.file.filename}`,

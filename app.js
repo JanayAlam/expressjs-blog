@@ -22,7 +22,7 @@ const DB_URI = `mongodb+srv://${config.get('db-username')}:${config.get(
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// using middleware from middlware/middlwares file
+// using middleware from middleware/middlewares file
 setMiddleware(app);
 
 // using routes from routes/route file

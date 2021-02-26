@@ -5,14 +5,14 @@ const comment = {};
 
 /**
  * Create comment controller
+ *
  * Create comment into a post with the help of post id from the request params
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  * @returns {Object} json object
  */
-comment.createCommentController = async (req, res, next) => {
+comment.createCommentController = async (req, res) => {
     const { postId } = req.params;
     const { body } = req.body;
 
@@ -61,12 +61,11 @@ comment.createCommentController = async (req, res, next) => {
  * Create reply controller
  * Create reply of a comment with the help of comment id from the request params
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  * @returns {Object} json object
  */
-comment.createReplyController = async (req, res, next) => {
+comment.createReplyController = async (req, res) => {
     const { commentId } = req.params;
     const { body } = req.body;
 

@@ -6,11 +6,20 @@ const { formatter } = require('../utils/validationErrorFormatter');
 // models
 const Profile = require('../models/Profile');
 const User = require('../models/User');
-const { set } = require('mongoose');
 
-// module sraffolding
+// module scaffolding
 const dash = {};
 
+/**
+ * Dashboard GET Controller
+ *
+ * Render the dashboard page
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} render the dashboard.ejs file
+ */
 dash.dashboardGetController = async (req, res, next) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
@@ -26,6 +35,16 @@ dash.dashboardGetController = async (req, res, next) => {
     }
 };
 
+/**
+ * Create Profile GET Controller
+ *
+ * Render the create profile form page
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} render the create-profile.ejs file
+ */
 dash.createProfileGetController = async (req, res, next) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
@@ -43,6 +62,17 @@ dash.createProfileGetController = async (req, res, next) => {
     }
 };
 
+/**
+ * Create Profile POST Controller
+ *
+ * Handle create profile post request. Save the profile of the user into database
+ * with validation of the request object
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} redirect to dashboard
+ */
 dash.createProfilePostController = async (req, res, next) => {
     const errors = validationResult(req).formatWith(formatter);
 
@@ -110,6 +140,16 @@ dash.createProfilePostController = async (req, res, next) => {
     }
 };
 
+/**
+ * Edit Profile GET Controller
+ *
+ * Render the edit profile form view
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} render the edit-profile.ejs file
+ */
 dash.editProfileGetController = async (req, res, next) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
@@ -127,6 +167,16 @@ dash.editProfileGetController = async (req, res, next) => {
     }
 };
 
+/**
+ * Edit Profile POST Controller
+ *
+ * Update the user profile into the database
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} render the edit-profile.ejs file with new value
+ */
 dash.editProfilePostController = async (req, res, next) => {
     const errors = validationResult(req).formatWith(formatter);
     const {

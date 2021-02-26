@@ -4,14 +4,14 @@ const likeDislike = {};
 
 /**
  * Get Likes of a post
+ *
  * Handle the like event of the client
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  * @returns {Object} {liked: Boolean, totalLikes: Number, totalDislikes: Number}
  */
-likeDislike.getLikes = async (req, res, next) => {
+likeDislike.getLikes = async (req, res) => {
     const { postId } = req.params;
     let liked = null;
 
@@ -25,6 +25,7 @@ likeDislike.getLikes = async (req, res, next) => {
 
     try {
         const post = await Post.findById(postId);
+
         // previously disliked the post
         if (post.dislikes.includes(userId)) {
             await Post.findOneAndUpdate(
@@ -66,14 +67,14 @@ likeDislike.getLikes = async (req, res, next) => {
 
 /**
  * Get Dislikes of a post
+ *
  * Handle the dislike event of the client
  *
- * @param {Object} req Request object
- * @param {Object} res Response object
- * @param {Function} next
+ * @param {Request} req Request object
+ * @param {Response} res Response object
  * @returns {Object} {liked: Boolean, totalLikes: Number, totalDislikes: Number}
  */
-likeDislike.getDislikes = async (req, res, next) => {
+likeDislike.getDislikes = async (req, res) => {
     const { postId } = req.params;
     let disliked = null;
 

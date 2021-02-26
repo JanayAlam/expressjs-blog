@@ -1,4 +1,4 @@
-// encription
+// encryption
 const bcrypt = require('bcrypt');
 
 // validation
@@ -11,16 +11,16 @@ const User = require('../models/User');
 const { formatter } = require('../utils/validationErrorFormatter');
 const Flash = require('../utils/Flash');
 
-// module sraffolding
+// module scaffolding
 const auth = {};
 
 /**
  * Signup get controller
  * Render the signup page
  *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
  */
 auth.signupGetController = (req, res, next) => {
     res.render('pages/auth/signup', {
@@ -35,9 +35,9 @@ auth.signupGetController = (req, res, next) => {
  * Signup post controller
  * Handle the post request from signup form
  *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
  */
 auth.signupPostController = async (req, res, next) => {
     let { username, email, password } = req.body;
@@ -75,9 +75,9 @@ auth.signupPostController = async (req, res, next) => {
  * Login get controller
  * Render the login page
  *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
  */
 auth.loginGetController = (req, res, next) => {
     res.render('pages/auth/login', {
@@ -92,9 +92,9 @@ auth.loginGetController = (req, res, next) => {
  * Login post controller
  * Handle the post request from login form
  *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
  */
 auth.loginPostController = async (req, res, next) => {
     const { email, password } = req.body;
@@ -164,9 +164,9 @@ auth.loginPostController = async (req, res, next) => {
  * Logout controller
  * Handle the logout request from user
  *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
  */
 auth.logoutController = (req, res, next) => {
     req.session.destroy((error) => {

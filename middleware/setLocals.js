@@ -1,8 +1,17 @@
+// dependencies
 const cheerio = require('cheerio');
 const moment = require('moment');
 
+// module scaffolding
 const locals = {};
 
+/**
+ * Bind Logged in
+ *
+ * Bind user, logged in, truncated body with response
+ *
+ * @returns {function(*, *, *): void}
+ */
 locals.bindLoggedIn = () => {
     return (req, res, next) => {
         res.locals.user = req.user;

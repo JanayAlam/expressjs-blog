@@ -23,10 +23,12 @@
                                     <i class="far fa-bookmark"></i>
                                     <% } %>
                                 </small>
+                                <% if (post.author.username === user.username) { %>
+                                    <a class="ml-2" href="/posts/edit/<%= post._id %>" style="color: #222;">
+                                        Edit Post
+                                    </a>
+                                <% } %>
                             <% } %>
-                            <% if (post.author.username === user.username) { %>
-                                <a class="ml-2" href="/posts/edit/<%= post._id %>" style="color: #222;">Edit Post</a> 
-                            <% } %> 
                         </span>
                     </div>
                     <% if (post.thumbnail) { %>
