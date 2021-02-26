@@ -88,4 +88,53 @@ explore.explorerGetController = async (req, res, next) => {
     }
 };
 
+explore.singlePostGetController = async (req, res, next) => {
+    const { postId } = req.params;
+
+    try {
+        const post = await Post.findById(postId)
+            .populate({
+                path: 'author',
+                select: 'username',
+            })
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user',
+                    select: 'username profilePhoto',
+                },
+            })
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'replies.user',
+                    select: 'username profilePhoto',
+                },
+            });
+
+        if (!post) {
+            let error = new Error(`404 post not found`);
+            error.stack = 404;
+            throw error;
+        }
+
+        let bookmarks = [];
+        if (req.user) {
+            const profile = await Profile.findOne({ user: req.user._id });
+            if (profile) {
+                bookmarks = profile.bookmarks;
+            }
+        }
+
+        res.render('pages/dashboard/post/single-post.ejs', {
+            title: post.title,
+            flashMessage: Flash.getMessage(req),
+            post,
+            bookmarks,
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
 module.exports = explore;
