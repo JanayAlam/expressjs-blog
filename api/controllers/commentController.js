@@ -39,15 +39,15 @@ comment.createCommentController = async (req, res) => {
             { $push: { comments: createdComment._id } }
         );
         // getting the user from comment user ref
-        const commentJSON = await (
-            await Comment.findById(createdComment._id)
-        ).populate({
-            path: 'user',
-            select: 'profilePhoto username',
-        });
+        const commentJSON = await Comment.findById(createdComment._id).populate(
+            {
+                path: 'user',
+                select: 'profilePhoto username',
+            }
+        );
 
         return res.status(201).json({
-            commentJSON,
+            comment: commentJSON,
         });
     } catch (e) {
         console.log(e);

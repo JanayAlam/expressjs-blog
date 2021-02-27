@@ -68,12 +68,12 @@
                                 placeholder="Press enter to submit" 
                                 data-post="<%= post._id %>">
                             </div>
-                            <div class="mt5" id="comment-holder">
+                            <div class="mt-2" id="comment-holder">
                                 <% if (post.comments.length === 0) { %>
                                     <p class="text-center mt-2 text-muted">There is no comments</p>
                                 <% } else { %>
                                     <% for (let comment of post.comments.reverse()) { %>
-                                        <div class="media border">
+                                        <div class="media border my-2">
                                             <img src="<%= comment.user.profilePhoto %>" 
                                             alt="user profile photo" class="rounded-circle mx-3 my-3" 
                                             style="width: 40px;">
@@ -115,5 +115,6 @@
 <%- include('../../../partials/footer.ejs') %>
 <script src="/scripts/bookmarks.js"></script>
 <script src="/scripts/likeDislike.js"></script>
+<script src="/scripts/comment.js"></script>
 </body>
 </html>
