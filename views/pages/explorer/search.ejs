@@ -1,0 +1,70 @@
+<%- include('../../partials/header.ejs') %>
+
+<div class="container-fluid mt-2 mb-5">
+    <div class="row">
+        <div class="col-md-2">
+            <%- include('../../partials/sidenavbar.ejs') %> 
+        </div>
+        <div class="col-md-6 offset-md-2">
+            
+            <h5>Search Result For - <%= searchTerm %></h5>
+
+            <% if (posts.length > 0) { %>
+                <% for (let post of posts) { %>
+                    <div class="card card-body my-2">
+                        <a href="/explore/<%= post._id %>" style="color: #222;">
+                            <h5><%= post.title %></h5>
+                            <p><%= truncate(post.body) %></p>
+                        </a>
+                    </div>
+                <% } %> 
+            <% } else { %>
+                <p class="text-center text-muted">Nothing Found</p> 
+            <% } %> 
+
+            <% if (totalPages > 1) { %>
+            <nav>
+                <ul class="pagination">
+                    <li
+                        class="page-item <%= currentPage === 1 ? 'disabled' : '' %>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%=`/search?term=${term}&page=${currentPage - 1}` %>"
+                        >
+                            Previous
+                        </a>
+                    </li>
+                    <% for (let i=1; i<=totalPages; i++) { %>
+                    <li
+                        class="page-item <%= currentPage === i ? 'active' : ''%>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%=`/search?term=${term}&page=${i}`%>"
+                        >
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
+                    <li
+                        class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>"
+                    >
+                        <a
+                            class="page-link"
+                            href="<%=`/search?term=${term}&page=${currentPage + 1}`%> "
+                        >
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+<script src="/scripts/bookmarks.js"></script>
+</body>
+</html>
