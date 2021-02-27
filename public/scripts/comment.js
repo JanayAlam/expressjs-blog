@@ -32,8 +32,42 @@ comment.addEventListener('keypress', function (e) {
     }
 });
 
+commentHolder.addEventListener('keypress', function (e) {
+    if (commentHolder.hasChildNodes(e.target)) {
+        if (e.key === 'Enter') {
+            const commentId = e.target.dataset.comment;
+            const value = e.target.value;
+
+            if (value) {
+                const data = {
+                    body: value,
+                };
+                const req = requestGenerator(
+                    `/api/comments/replies/${commentId}`,
+                    'POST',
+                    data
+                );
+                fetch(req)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        let replyElement = createReplyElement(data);
+                        let parent = e.target.parentElement;
+                        parent.previousElementSibling.appendChild(replyElement);
+                        e.target.value = '';
+                    })
+                    .catch((e) => {
+                        console.error(e.message);
+                        alert(e.message);
+                    });
+            } else {
+                alert('Please enter a valid reply');
+            }
+        }
+    }
+});
+
 /**
- * Request object generator
+ * Request Object Generator
  *
  * Create a request object for sending to the server
  *
@@ -56,7 +90,7 @@ const requestGenerator = (URL, method, body) => {
 };
 
 /**
- * Create Comment
+ * Create Comment Node
  *
  * Create a div node
  *
@@ -81,6 +115,30 @@ const createComment = (comment) => {
 
     let div = document.createElement('div');
     div.className = 'media border';
+    div.innerHTML = innerHTML;
+
+    return div;
+};
+
+/**
+ * Create Reply Node
+ *
+ * Create a div node
+ *
+ * @param {Object} reply
+ */
+const createReplyElement = (reply) => {
+    const innerHTML = `
+        <img src="${reply.profilePhoto}"
+            style="width: 40px;"
+            class="align-self-start mr-3 rounded-circle">
+        
+        <div class="media-body">
+            <p>${reply.body}</p>
+        </div>
+    `;
+    let div = document.createElement('div');
+    div.className = 'media mt-3';
     div.innerHTML = innerHTML;
 
     return div;
