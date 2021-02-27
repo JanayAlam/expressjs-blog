@@ -14,15 +14,19 @@ author.getAuthorProfileController = async (req, res, next) => {
         const profile = await Profile.findById(profileId)
             .populate({
                 path: 'posts',
-                select: 'title body tags',
+                select: 'title body tags thumbnail',
             })
             .populate({
                 path: 'user',
                 select: 'username email',
             });
+
+        const isSameUser =
+            JSON.stringify(profile.user._id) == JSON.stringify(req.user._id);
         res.render('pages/explorer/author-page.ejs', {
-            title: profile.username,
+            title: profile.user.username,
             profile,
+            isSameUser,
             flashMessage: Flash.getMessage(req),
         });
     } catch (e) {

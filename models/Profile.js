@@ -56,6 +56,25 @@ const profileSchema = new Schema(
                 ref: 'Post',
             },
         ],
+        stars: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
+        reviews: [
+            {
+                body: {
+                    type: String,
+                    trim: true,
+                    required: true,
+                },
+                user: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User',
+                },
+            },
+        ],
     },
     {
         timestamps: true,

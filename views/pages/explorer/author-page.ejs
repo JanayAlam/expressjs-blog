@@ -5,22 +5,35 @@
         <div class="col-md-2">
             <%- include('../../partials/sidenavbar.ejs') %> 
         </div>
-        <div class="col-md-8 offset-md-1">
+        <div class="col-md-10">
             <div class="card card-body">
                 <div class="media">
                     <img class="align-self-start mr-3 rounded-circle" 
                     style="width: 250px; 
                         border: 1px solid #fff;
-                        box-shadow: 0px 0px 5px #888888;" src="<%= profile.profilePhoto %>" alt="Profile Image">
+                        box-shadow: 0px 0px 5px #888888;" src="<%= profile.profilePhoto %>" 
+                        alt="Profile Image">
                     <div class="media-body mt-2 ml-2">
-                        <h2 class="font-weight-bold mb-0" style="font-size: 40px;"><%= profile.firstName + ' ' + profile.lastName%></h2>
+                        <div class="d-flex">
+                            <h2 class="font-weight-bold mb-0" 
+                                style="font-size: 40px;"><%= profile.firstName + ' ' + profile.lastName%></h2>
+                            <% if (isSameUser) { %>
+                                <div class="ml-auto">
+                                    <a class="badge badge-dark" 
+                                href="/dashboard/edit-profile">
+                                <i class="fas fa-edit"></i> Edit Profile
+                                </a>
+                                </div>
+                            <% } %> 
+                        </div>
                         <h6 class="text-muted mt-0">@<%= profile.user.username%></h6>
                         <h6 class="font-weight-bold"><%= profile.title%></h6>
                         <p class="text-justify mt-3" style="min-height: 60px;"><%= profile.bio%></p>
                         <hr>
                         <div class="d-flex">
                             <% if (profile.links.website) { %> 
-                                <a href="<%= profile.links.website %>" target="_blank" class="mx-2" style="color: #222;">
+                                <a href="<%= profile.links.website %>" target="_blank" class="mx-2" 
+                                    style="color: #222;">
                                     <i class="fas fa-globe-asia" style="font-size: 32px;"></i>
                                 </a>
                             <% } else { %>
@@ -72,10 +85,16 @@
                                     <i class="fab fa-linkedin-in" style="font-size: 32px;"></i>
                                 </span>
                             <% } %>
-
-                            <!-- <button id="star-btn" class="btn btn-outline-dark btn-sm ml-auto" style="border: 0;">
-                                <i class="far fa-star"></i> Star
-                            </button> -->
+                            
+                            <% if (!isSameUser) { %> 
+                                <button id="star-btn" class="btn btn-outline-dark btn-sm ml-auto" style="border: 0;">
+                                    <% if (profile.stars.includes(user._id)) { %> 
+                                        <i class="far fa-star"></i> Stared
+                                    <% } else { %> 
+                                        <i class="far fa-star"></i> Star
+                                    <% } %> 
+                                </button>
+                            <% } %> 
                         </div>
                     </div>
                 </div>
@@ -86,20 +105,68 @@
                     <h5 class="card-title display-3 font-weight-bold" style="color: rgb(38, 66, 109);">
                         <%= profile.posts.length %>
                     </h5>
-                    <p class="card-text font-weight-bold" style="font-size: 24px;">Writes</p>
+                    <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-feather-alt"></i> Writes</p>
                 </div>
                 <div class="card card-body text-center mx-2">
                     <h5 class="card-title display-3 font-weight-bold" style="color: rgb(38, 66, 109);">
-                        <%= 15 %>
+                        <%= profile.stars.length %>
                     </h5>
-                    <p class="card-text font-weight-bold" style="font-size: 24px;">Stars</p>
+                    <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-star"></i> Stars</p>
                 </div>
                 <div class="card card-body text-center mx-2">
                     <h5 class="card-title display-3 font-weight-bold" style="color: rgb(38, 66, 109);">
-                        <%= 7 %>
+                        <%= profile.reviews.length %>
                     </h5>
-                    <p class="card-text font-weight-bold" style="font-size: 24px;">Reviews</p>
+                    <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-quote-right"></i> Reviews</p>
                 </div>
+            </div>
+            <div class="d-flex mt-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="card card-body">
+                                <h4 class="mb-0 text-muted">Posts</h4>
+                                <hr class="mt-0">
+                                <% if (profile.posts.length === 0) { %>
+                                <p class="text-muted text-center dispay-3">
+                                    There is nothing to show
+                                </p>
+                                <% } else { %>
+                                <div class="col-12">
+                                    <% for (let post of profile.posts.reverse()) { %>
+                                    <div class="card my-2">
+                                        <% if (post.thumbnail) { %>
+                                        <img
+                                            class="img-fluid mb-2"
+                                            src="<%= post.thumbnail %>"
+                                            alt="thumbnail"
+                                        />
+                                        <% } %>
+                                        <div class="card-body">
+                                            <a href="/explore/<%= post._id %>" style="color: #222">
+                                                <h5><%= post.title %></h5>
+                                                <p class="mb-4"><%= truncate(post.body) %></p>
+                                            </a>
+                                        </div>
+                                        <small class="text-muted ml-2 mb-2">
+                                            <%= moment(post.createdAt) %>
+                                        </small>
+                                    </div>
+                                    <% } %>
+                                </div>
+                                
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="card card-body">
+                                <h4 class="mb-0 text-muted">Reviews</h4>
+                                <hr class="mt-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
