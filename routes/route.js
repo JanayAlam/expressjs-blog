@@ -6,6 +6,7 @@ const postRoute = require('./postRoute');
 const apiRoute = require('../api/routes/apiRoute');
 const exploreRoute = require('./exploreRoute');
 const searchRoute = require('./searchRoute');
+const authorRoute = require('./authorRoute');
 
 const routes = [
     {
@@ -35,6 +36,10 @@ const routes = [
     {
         path: '/posts',
         controller: postRoute,
+    },
+    {
+        path: '/author',
+        controller: authorRoute,
     },
     {
         path: '/search',
