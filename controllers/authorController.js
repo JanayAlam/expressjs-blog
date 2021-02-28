@@ -4,7 +4,6 @@ const Flash = require('../utils/Flash');
 // models
 const Profile = require('../models/Profile');
 const User = require('../models/User');
-const review = require('../api/controllers/reviewController');
 
 // module scaffolding
 const author = {};
@@ -47,17 +46,26 @@ author.getAuthorProfileController = async (req, res, next) => {
                     createdAt: r.createdAt,
                 });
             }
-            const isSameUser =
-                JSON.stringify(profile.user._id) ==
-                JSON.stringify(req.user._id);
 
-            res.render('pages/explorer/author-page.ejs', {
-                title: profile.user.username,
-                profile,
-                isSameUser,
-                reviews,
-                flashMessage: Flash.getMessage(req),
-            });
+            if (req.user) {
+                const isSameUser =
+                    JSON.stringify(profile.user._id) ===
+                    JSON.stringify(req.user._id);
+
+                res.render('pages/explorer/author-page.ejs', {
+                    title: profile.user.username,
+                    profile,
+                    isSameUser,
+                    reviews,
+                    flashMessage: Flash.getMessage(req),
+                });
+            } else {
+                return res.redirect('/auth/login');
+            }
+        } else {
+            let error = new Error('Profile not found');
+            error.status = 404;
+            throw error;
         }
     } catch (e) {
         next(e);

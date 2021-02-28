@@ -114,7 +114,7 @@
                     <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-star"></i> Stars</p>
                 </div>
                 <div class="card card-body text-center mx-2">
-                    <h5 class="card-title display-3 font-weight-bold" style="color: rgb(38, 66, 109);">
+                    <h5 class="card-title display-3 font-weight-bold" id="review-counter" style="color: rgb(38, 66, 109);">
                         <%= profile.reviews.length %>
                     </h5>
                     <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-quote-right"></i> Reviews</p>
@@ -170,9 +170,9 @@
                                         data-profile="<%= profile._id %>">
                                     </div>
                                     <hr>
-                                <% } %> 
+                                <% } %>
+                                <div id="review-holder">
                                 <% if (profile.reviews.length > 0) { %>
-                                    
                                     <% for (let data of reviews) { %>
                                         <!-- TODO -->
                                         <div class="card card-body my-2">
@@ -192,10 +192,10 @@
                                             </div>
                                         </div>
                                     <% } %> 
-
                                 <% } else { %> 
                                     <p class="text-center text-muted mt-5">None reviewed this author yet</p>
                                 <% } %> 
+                                </div>
                             </div>
                         </div>
                     </div>
