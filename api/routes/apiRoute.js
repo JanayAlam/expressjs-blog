@@ -10,6 +10,7 @@ const {
 } = require('../controllers/likeDislikeController');
 const { addBookmark } = require('../controllers/bookmarkController');
 const { postNewReview } = require('../controllers/reviewController');
+const { addStar } = require('../controllers/starController');
 
 router.post('/comments/:postId', isAuthenticated, createCommentController);
 router.post(
@@ -24,5 +25,7 @@ router.get('/dislikes/:postId', isAuthenticated, getDislikes);
 router.get('/bookmarks/:postId', isAuthenticated, addBookmark);
 
 router.patch('/review/:profileId', isAuthenticated, postNewReview);
+
+router.get('/star/:profileId', isAuthenticated, addStar);
 
 module.exports = router;

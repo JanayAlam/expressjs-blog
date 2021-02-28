@@ -4,6 +4,7 @@ const Flash = require('../utils/Flash');
 // models
 const Profile = require('../models/Profile');
 const User = require('../models/User');
+const review = require('../api/controllers/reviewController');
 
 // module scaffolding
 const author = {};

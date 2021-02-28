@@ -85,11 +85,15 @@
                                     <i class="fab fa-linkedin-in" style="font-size: 32px;"></i>
                                 </span>
                             <% } %>
+
+                            <span class="align-self-center text-muted">
+                                <i style="font-size: 12px;" class="fas fa-circle mx-2"></i><%= profile.user.email %>
+                            </span>
                             
                             <% if (!isSameUser) { %> 
                                 <button id="star-btn" class="btn btn-outline-dark btn-sm ml-auto" style="border: 0;">
                                     <% if (profile.stars.includes(user._id)) { %> 
-                                        <i class="far fa-star"></i> Stared
+                                        <i class="fas fa-star"></i> Stared
                                     <% } else { %> 
                                         <i class="far fa-star"></i> Star
                                     <% } %> 
@@ -108,7 +112,7 @@
                     <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-feather-alt"></i> Writes</p>
                 </div>
                 <div class="card card-body text-center mx-2">
-                    <h5 class="card-title display-3 font-weight-bold" style="color: rgb(38, 66, 109);">
+                    <h5 class="card-title display-3 font-weight-bold" id="star-counter" style="color: rgb(38, 66, 109);">
                         <%= profile.stars.length %>
                     </h5>
                     <p class="card-text font-weight-bold" style="font-size: 24px;"><i class="fas fa-star"></i> Stars</p>
@@ -162,7 +166,7 @@
                                 <h4 class="text-muted">Reviews</h4>
                                 <hr class="mt-0">
                                 <!-- Review Box -->
-                                <% if (!isSameUser) { %> 
+                                <% if (!isSameUser) { %>
                                     <div id="reviewBox">
                                         <label for="review" class="mb-0 font-weight-bold">Write a review:</label>
                                         <input type="text" class="form-control" id="review" 
@@ -174,7 +178,6 @@
                                 <div id="review-holder">
                                 <% if (profile.reviews.length > 0) { %>
                                     <% for (let data of reviews) { %>
-                                        <!-- TODO -->
                                         <div class="card card-body my-2">
                                             <div class="media">
                                                 <a href="/author/<%= data.from.profile._id %>" style="color: #222;">
@@ -206,6 +209,6 @@
 </div>
 
 <%- include('../../partials/footer.ejs') %>
-<script src="/scripts/authorReview.js"></script>
+<script src="/scripts/authorReviewAndStar.js"></script>
 </body>
 </html>

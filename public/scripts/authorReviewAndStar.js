@@ -3,6 +3,36 @@ window.onload = function () {
     const reviewHolder = document.getElementById('review-holder');
     const reviewCounter = document.getElementById('review-counter');
 
+    const profileId = review.dataset.profile;
+
+    const starBtn = document.getElementById('star-btn');
+    const starCounter = document.getElementById('star-counter');
+
+    starBtn.addEventListener('click', function (e) {
+        const URL = `/api/star/${profileId}`;
+        const req = requestGenerator(URL, 'GET');
+
+        fetch(req)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.stared) {
+                    starBtn.innerHTML = `<i class="fas fa-star"></i> Stared`;
+                    starCounter.innerHTML = parseInt(
+                        starCounter.innerHTML.trim() + 1
+                    );
+                } else {
+                    starBtn.innerHTML = `<i class="far fa-star"></i> Star`;
+                    starCounter.innerHTML = parseInt(
+                        starCounter.innerHTML.trim() - 1
+                    );
+                }
+            })
+            .catch((e) => {
+                console.error(e.message);
+                alert(e.message);
+            });
+    });
+
     review.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             if (e.target.value) {
@@ -10,7 +40,6 @@ window.onload = function () {
                 const data = {
                     body: body ? body : '',
                 };
-                const profileId = review.dataset.profile;
                 const URL = `/api/review/${profileId}`;
                 const req = requestGenerator(URL, 'PATCH', data);
 

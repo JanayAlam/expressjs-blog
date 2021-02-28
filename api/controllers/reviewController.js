@@ -11,7 +11,7 @@ const review = {};
  *
  * Create a new review into a author profile
  *
- * @param {Request} req Request object with a body (content of the review)
+ * @param {Request} req Request object with a body {body: String}
  * @param {Response} res
  * @param {next} next
  */
