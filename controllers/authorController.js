@@ -23,6 +23,7 @@ author.getAuthorProfileController = async (req, res, next) => {
 
         const isSameUser =
             JSON.stringify(profile.user._id) == JSON.stringify(req.user._id);
+
         res.render('pages/explorer/author-page.ejs', {
             title: profile.user.username,
             profile,

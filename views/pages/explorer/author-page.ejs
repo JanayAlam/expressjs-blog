@@ -163,24 +163,31 @@
                                 <hr class="mt-0">
                                 <!-- Review Box -->
                                 <% if (!isSameUser) { %> 
-                                    <div>
-                                        <label for="comment">Write a review</label>
+                                    <div id="reviewBox">
+                                        <label for="review" class="mb-0 font-weight-bold">Write a review:</label>
                                         <input type="text" class="form-control" id="review" 
                                         placeholder="Press enter to submit" 
                                         data-profile="<%= profile._id %>">
                                     </div>
+                                    <hr>
+                                <% } %> 
+                                <% if (profile.reviews.length > 0) { %>
+                                    <% for (let data of profile.reviews) { %>
+                                        <!-- TODO -->
+                                    <% } %> 
+                                <% } else { %> 
+                                    <p class="text-center text-muted mt-5">None reviewed this author yet</p>
                                 <% } %> 
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
 </div>
 
 <%- include('../../partials/footer.ejs') %>
-<script src="/scripts/bookmarks.js"></script>
+<script src="/scripts/authorReview.js"></script>
 </body>
 </html>
