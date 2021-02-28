@@ -144,7 +144,7 @@
                                             <% } %>
                                             <div class="card-body">
                                                 <a href="/explore/<%= post._id %>" style="color: #222">
-                                                    <h5><%= post.title %></h5>
+                                                    <h5 class="font-weight-bold"><%= post.title %></h5>
                                                     <p class="mb-4"><%= truncate(post.body) %></p>
                                                 </a>
                                             </div>
@@ -172,9 +172,27 @@
                                     <hr>
                                 <% } %> 
                                 <% if (profile.reviews.length > 0) { %>
-                                    <% for (let data of profile.reviews) { %>
+                                    
+                                    <% for (let data of reviews) { %>
                                         <!-- TODO -->
+                                        <div class="card card-body my-2">
+                                            <div class="media">
+                                                <a href="/author/<%= data.from.profile._id %>" style="color: #222;">
+                                                    <img class="align-self-start mr-3 rounded-circle" 
+                                                    src="<%= data.from.profilePhoto %> " 
+                                                    alt="Reviewer Profile Photo" style="width: 45px;">
+                                                </a>
+                                                <div class="media-body">
+                                                  <a href="/author/<%= data.from.profile._id %>" style="color: #222;">
+                                                    <h6 class="my-0 font-weight-bold"><%= data.fullName %></h6>
+                                                  </a>
+                                                  <small class="text-muted mt-0 mb-2"><%= moment(data.createdAt) %></small>
+                                                  <p><%= data.body %> </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <% } %> 
+
                                 <% } else { %> 
                                     <p class="text-center text-muted mt-5">None reviewed this author yet</p>
                                 <% } %> 

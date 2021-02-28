@@ -64,15 +64,8 @@ const profileSchema = new Schema(
         ],
         reviews: [
             {
-                body: {
-                    type: String,
-                    trim: true,
-                    required: true,
-                },
-                user: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'User',
-                },
+                type: Schema.Types.ObjectId,
+                ref: 'Review',
             },
         ],
     },
