@@ -91,7 +91,7 @@
                             </span>
                             
                             <% if (!isSameUser) { %> 
-                                <button id="star-btn" class="btn btn-outline-dark btn-sm ml-auto" style="border: 0;">
+                                <button id="star-btn" class="btn btn-outline-light btn-sm ml-auto" style="border: 0; color: #222;">
                                     <% if (profile.stars.includes(user._id)) { %> 
                                         <i class="fas fa-star"></i> Stared
                                     <% } else { %> 
@@ -177,7 +177,7 @@
                                 <% } %>
                                 <div id="review-holder">
                                 <% if (profile.reviews.length > 0) { %>
-                                    <% for (let data of reviews) { %>
+                                    <% for (let data of reviews.reverse()) { %>
                                         <div class="card card-body my-2">
                                             <div class="media">
                                                 <a href="/author/<%= data.from.profile._id %>" style="color: #222;">
