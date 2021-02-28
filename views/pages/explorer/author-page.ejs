@@ -125,43 +125,51 @@
                     <div class="row">
                         <div class="col-7">
                             <div class="card card-body">
-                                <h4 class="mb-0 text-muted">Posts</h4>
+                                <h4 class="text-muted">Posts</h4>
                                 <hr class="mt-0">
                                 <% if (profile.posts.length === 0) { %>
                                 <p class="text-muted text-center dispay-3">
                                     There is nothing to show
                                 </p>
                                 <% } else { %>
-                                <div class="col-12">
-                                    <% for (let post of profile.posts.reverse()) { %>
-                                    <div class="card my-2">
-                                        <% if (post.thumbnail) { %>
-                                        <img
-                                            class="img-fluid mb-2"
-                                            src="<%= post.thumbnail %>"
-                                            alt="thumbnail"
-                                        />
-                                        <% } %>
-                                        <div class="card-body">
-                                            <a href="/explore/<%= post._id %>" style="color: #222">
-                                                <h5><%= post.title %></h5>
-                                                <p class="mb-4"><%= truncate(post.body) %></p>
-                                            </a>
+                                    <div class="card-columns">
+                                        <% for (let post of profile.posts.reverse()) { %>
+                                        <div class="card my-2">
+                                            <% if (post.thumbnail) { %>
+                                                <img
+                                                    class="img-fluid mb-2"
+                                                    src="<%= post.thumbnail %>"
+                                                    alt="thumbnail"
+                                                />
+                                            <% } %>
+                                            <div class="card-body">
+                                                <a href="/explore/<%= post._id %>" style="color: #222">
+                                                    <h5><%= post.title %></h5>
+                                                    <p class="mb-4"><%= truncate(post.body) %></p>
+                                                </a>
+                                            </div>
+                                            <small class="text-muted ml-2 mb-2">
+                                                <%= moment(post.createdAt) %>
+                                            </small>
                                         </div>
-                                        <small class="text-muted ml-2 mb-2">
-                                            <%= moment(post.createdAt) %>
-                                        </small>
+                                        <% } %>
                                     </div>
-                                    <% } %>
-                                </div>
-                                
                                 <% } %>
                             </div>
                         </div>
                         <div class="col-5">
                             <div class="card card-body">
-                                <h4 class="mb-0 text-muted">Reviews</h4>
+                                <h4 class="text-muted">Reviews</h4>
                                 <hr class="mt-0">
+                                <!-- Review Box -->
+                                <% if (!isSameUser) { %> 
+                                    <div>
+                                        <label for="comment">Write a review</label>
+                                        <input type="text" class="form-control" id="review" 
+                                        placeholder="Press enter to submit" 
+                                        data-profile="<%= profile._id %>">
+                                    </div>
+                                <% } %> 
                             </div>
                         </div>
                     </div>

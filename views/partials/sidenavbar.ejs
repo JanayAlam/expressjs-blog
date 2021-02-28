@@ -18,9 +18,11 @@
         <li class="list-group-item">
             <a href="/dashboard/comments">Comments</a>
         </li>
+        <% if (user) { %>
         <li class="list-group-item">
             <a href="/author/<%= user.profile %>">Profile</a>
         </li>
+        <% } %>
         <li class="list-group-item">
             <a href="/dashboard/edit-profile">Edit Profile</a>
         </li>
