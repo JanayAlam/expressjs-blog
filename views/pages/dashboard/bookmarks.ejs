@@ -1,0 +1,65 @@
+<%- include('../../partials/header.ejs') %> 
+<div class="container-fluid my-container mt-2 mb-5">
+    <div class="row">
+        <div class="col-md-2">
+            <%- include('../../partials/sidenavbar.ejs') %> 
+        </div>
+        <div class="col-md-10">
+            <h1 class="text-center font-weight-bold">Bookmarked Post</h1>
+            <hr>
+            <% if (posts.length <= 0) { %>
+                <p class="text-center text-muted">You did not bookmarked any post yet</p>
+                <p class="text-center text-muted">
+                    Explore posts and add bookmark at 
+                    <a href="/explore" style="color: #222">
+                        <strong>explore all posts</strong>
+                    </a>
+                </p>
+            <% } else { %>
+                <div class="container">
+                    <div class="row">
+                        <div class="card-group">
+                            <% for (let post of posts.reverse()) { %>
+                                <div class="col-sm-6">
+                                    <div class="card my-2">
+                                        <div class="card-header" style="border: 0;">
+                                            <div class="media">
+                                                <a href="/author/<%= post.authorId %>" class="align-self-center">
+                                                    <img 
+                                                    class="mr-3 rounded-circle border" 
+                                                    src="<%= post.profilePhoto %>" 
+                                                    alt="Author's Image" 
+                                                    height="45px" width="45px">
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="/author/<%= post.authorId %>" style="color: #222;">
+                                                        <h5 class="mt-1 mb-0" style="font-size: 18px;"><%= post.authorName %></h5>
+                                                    </a>
+                                                    <h6 class="text-muted"><small><%= moment(post.createdAt) %></small></h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <strong><%= post.title %></strong>
+                                            </h5>
+                                            <p class="card-text"><%= truncate(post.body) %></p>
+                                            <hr class="mb-0">
+                                            <p class="text-muted my-0"><small><%= post.readTime %></small></p>
+                                            <a href="/explore/<%= post._id %>" class="btn btn-light mt-1">
+                                                <strong><i class="fas fa-eye"></i> View Post</strong>
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                            <% } %>
+                        </div>
+                      </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer.ejs') %>
+</body>
+</html>

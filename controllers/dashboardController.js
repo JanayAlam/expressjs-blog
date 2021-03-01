@@ -246,4 +246,57 @@ dash.editProfilePostController = async (req, res, next) => {
     }
 };
 
+/**
+ * Bookmarks GET Controller
+ *
+ * Render the bookmarks page with the details of all bookmarked posts
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ * @returns {Promise<*>} render the bookmarks.ejs file
+ */
+dash.getBookmarks = async (req, res, next) => {
+    try {
+        const profile = await Profile.findById(req.user.profile).populate({
+            path: 'bookmarks',
+            model: 'Post',
+            select: 'title body readTime createdAt',
+            populate: {
+                path: 'author',
+                model: 'User',
+                select: 'username profilePhoto',
+                populate: {
+                    path: 'profile',
+                    model: 'Profile',
+                    select: 'firstName lastName',
+                },
+            },
+        });
+
+        let posts = profile.bookmarks.map((bookmark) => {
+            return {
+                authorName:
+                    bookmark.author.profile.firstName +
+                    ' ' +
+                    bookmark.author.profile.lastName,
+                authorId: bookmark.author.profile._id,
+                _id: bookmark._id,
+                readTime: bookmark.readTime,
+                createdAt: bookmark.createdAt,
+                profilePhoto: bookmark.author.profilePhoto,
+                title: bookmark.title,
+                body: bookmark.body,
+            };
+        });
+        return res.render('pages/dashboard/bookmarks.ejs', {
+            title: 'Bookmarks',
+            flashMessage: Flash.getMessage(req),
+            posts,
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
 module.exports = dash;

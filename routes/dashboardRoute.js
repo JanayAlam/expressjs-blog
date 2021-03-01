@@ -10,9 +10,10 @@ const {
     createProfilePostController,
     editProfileGetController,
     editProfilePostController,
+    getBookmarks,
 } = require('../controllers/dashboardController');
 
-router.get('/', isAuthenticated, dashboardGetController);
+router.get('/bookmarks', isAuthenticated, getBookmarks);
 
 router.get('/create-profile', isAuthenticated, createProfileGetController);
 router.post(
@@ -29,5 +30,7 @@ router.post(
     profileValidator,
     editProfilePostController
 );
+
+router.get('/', isAuthenticated, dashboardGetController);
 
 module.exports = router;
