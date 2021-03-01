@@ -34,7 +34,7 @@ validator.signupValidator = [
         .withMessage('Password must be greater than 5 characters')
         .custom((confirmPassword, { req }) => {
             if (confirmPassword !== req.body.password) {
-                throw new Error('Password does not not matched');
+                throw new Error('Password does not matched');
             }
             return true;
         }),

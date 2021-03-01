@@ -15,7 +15,8 @@ const Flash = require('../utils/Flash');
 const auth = {};
 
 /**
- * Signup get controller
+ * Signup GET Controller
+ *
  * Render the signup page
  *
  * @param {Request} req
@@ -32,7 +33,8 @@ auth.signupGetController = (req, res, next) => {
 };
 
 /**
- * Signup post controller
+ * Signup POST Controller
+ *
  * Handle the post request from signup form
  *
  * @param {Request} req
@@ -72,7 +74,8 @@ auth.signupPostController = async (req, res, next) => {
 };
 
 /**
- * Login get controller
+ * Login GET Controller
+ *
  * Render the login page
  *
  * @param {Request} req
@@ -89,7 +92,8 @@ auth.loginGetController = (req, res, next) => {
 };
 
 /**
- * Login post controller
+ * Login POST Controller
+ *
  * Handle the post request from login form
  *
  * @param {Request} req
@@ -133,7 +137,7 @@ auth.loginPostController = async (req, res, next) => {
 
         if (!match) {
             req.flash('fail', 'Please provide valid Credentials');
-            return res.render('pages/auth/login', {
+            return res.render('pages/auth/login.ejs', {
                 title: 'Login',
                 error: {
                     email: 'Invalid Credential',
@@ -161,8 +165,9 @@ auth.loginPostController = async (req, res, next) => {
 };
 
 /**
- * Logout controller
- * Handle the logout request from user
+ * Logout Controller
+ *
+ * Kill the session of the user from database
  *
  * @param {Request} req
  * @param {Response} res
@@ -175,6 +180,75 @@ auth.logoutController = (req, res, next) => {
         }
         return res.redirect('/auth/login');
     });
+};
+
+/**
+ * Chnage Password GET Controller
+ *
+ * Render the chnage password form view
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ */
+auth.getChangePasswordController = (req, res, next) => {
+    return res.render('pages/auth/change-password.ejs', {
+        title: 'Chnage Password',
+        error: {},
+        flashMessage: Flash.getMessage(req),
+    });
+};
+
+/**
+ * Chnage Password POST Controller
+ *
+ * Change the user's password into the database
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {next} next
+ */
+auth.changePasswordController = async (req, res, next) => {
+    const userId = req.user._id;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const errors = validationResult(req).formatWith(formatter);
+
+    if (!errors.isEmpty()) {
+        req.flash('fail', 'Please check your data');
+        return res.render('pages/auth/change-password.ejs', {
+            title: 'Change Password',
+            error: errors.mapped(),
+            flashMessage: Flash.getMessage(req),
+        });
+    }
+
+    try {
+        const user = await User.findById(userId);
+
+        // checking the old password did matched or not
+        const isMatched = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatched) {
+            return res.render('pages/auth/change-password.ejs', {
+                title: 'Change Password',
+                error: {
+                    oldPassword: 'Did not match with your password',
+                },
+                flashMessage: Flash.getMessage(req),
+            });
+        }
+
+        // update the password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findOneAndUpdate(
+            { _id: userId },
+            {
+                $set: { password: hashedPassword },
+            }
+        );
+        return res.redirect('/auth/change-password');
+    } catch (e) {
+        next(e);
+    }
 };
 
 module.exports = auth;
