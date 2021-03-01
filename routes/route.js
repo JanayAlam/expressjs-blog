@@ -48,10 +48,7 @@ const routes = [
     {
         path: '/',
         controller: (req, res, next) => {
-            // res.redirect('/dashboard');
-            res.json({
-                message: 'Welcome',
-            });
+            res.redirect('/explore');
         },
     },
 ];

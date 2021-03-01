@@ -5,7 +5,72 @@
             <%- include('../../partials/sidenavbar.ejs') %> 
         </div>
         <div class="col-md-10">
-            <h1 class="display-1 text-center">Welcome to your dashboard</h1>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header" style="border: 0;">
+                                <h5 class="font-weight-bold my-1">Recent posts:</h5>
+                            </div>
+                            <% if (posts.length <= 0) { %>
+                                <p class="my-3 text-center text-muted">There isnt any post available, <a href="/posts/create" style="color: #222;"><strong>create</strong></a> one now!</p>
+                            <% } else { %>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <% for (let post of posts) { %>
+                                            <div class="col-sm-6">
+                                                <div class="card my-2">
+                                                    <div class="card-body" style="min-height: 210px;">
+                                                        <h5 class="card-title">
+                                                            <strong><%= post.title %></strong>
+                                                        </h5>
+                                                        <p class="card-text"><%= truncate(post.body) %></p>
+                                                        <hr class="mb-0">
+                                                        <a href="/explore/<%= post._id %>" class="btn btn-light mt-1">
+                                                            <strong><i class="fas fa-eye"></i> View Post</strong>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header" style="border: 0;">
+                                <h5 class="font-weight-bold my-1">Recent bookmarked posts:</h5>
+                            </div>
+                            <% if (bookmarks.length <= 0) { %>
+                                <p class="my-3 text-center text-muted">You did not bookmarked any post yet, <a href="/explore" style="color: #222;"><strong>Explore</strong></a> posts!</p>
+                            <% } else { %>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <% for (let bookmark of bookmarks) { %>
+                                            <div class="col-sm-6">
+                                                <div class="card my-2">
+                                                    <div class="card-body" style="min-height: 210px;">
+                                                        <h5 class="card-title">
+                                                            <strong><%= bookmark.title %></strong>
+                                                        </h5>
+                                                        <p class="card-text"><%= truncate(bookmark.body) %></p>
+                                                        <hr class="mb-0">
+                                                        <a href="/explore/<%= bookmark._id %>" class="btn btn-light mt-1">
+                                                            <strong><i class="fas fa-eye"></i> View Post</strong>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
